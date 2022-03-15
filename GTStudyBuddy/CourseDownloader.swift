@@ -7,6 +7,7 @@
 
 import Foundation
 
+// hey there
 // ajay changed this
 class CourseDownloader {
     struct TermResponse: Codable {
