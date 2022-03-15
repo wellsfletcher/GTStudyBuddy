@@ -19,6 +19,11 @@
 		AA995BF927E041ED00BCACE2 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995BF727E041ED00BCACE2 /* SignInView.swift */; };
 		AA995BFC27E0423100BCACE2 /* SetUpUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995BFB27E0423100BCACE2 /* SetUpUserView.swift */; };
 		AA995BFE27E0426700BCACE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA995BFD27E0426600BCACE2 /* GoogleService-Info.plist */; };
+		AA995C0327E046D200BCACE2 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995C0027E046D200BCACE2 /* Course.swift */; };
+		AA995C0427E046D200BCACE2 /* CourseSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995C0127E046D200BCACE2 /* CourseSection.swift */; };
+		AA995C0527E046D200BCACE2 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995C0227E046D200BCACE2 /* Term.swift */; };
+		AA995C0727E0474900BCACE2 /* CourseDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995C0627E0474900BCACE2 /* CourseDownloader.swift */; };
+		AA995C0927E04FA100BCACE2 /* CRNSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995C0827E04FA100BCACE2 /* CRNSetupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +57,11 @@
 		AA995BF727E041ED00BCACE2 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		AA995BFB27E0423100BCACE2 /* SetUpUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetUpUserView.swift; sourceTree = "<group>"; };
 		AA995BFD27E0426600BCACE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AA995C0027E046D200BCACE2 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		AA995C0127E046D200BCACE2 /* CourseSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSection.swift; sourceTree = "<group>"; };
+		AA995C0227E046D200BCACE2 /* Term.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
+		AA995C0627E0474900BCACE2 /* CourseDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDownloader.swift; sourceTree = "<group>"; };
+		AA995C0827E04FA100BCACE2 /* CRNSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRNSetupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,8 +114,11 @@
 		AA45687B27D8067D004DFD8E /* GTStudyBuddy */ = {
 			isa = PBXGroup;
 			children = (
+				AA995C0627E0474900BCACE2 /* CourseDownloader.swift */,
+				AA995BFF27E045F800BCACE2 /* Models */,
 				AA995BFD27E0426600BCACE2 /* GoogleService-Info.plist */,
 				AA995BFB27E0423100BCACE2 /* SetUpUserView.swift */,
+				AA995C0827E04FA100BCACE2 /* CRNSetupView.swift */,
 				AA995BF727E041ED00BCACE2 /* SignInView.swift */,
 				AA45687C27D8067D004DFD8E /* GTStudyBuddyApp.swift */,
 				AA45687E27D8067D004DFD8E /* ContentView.swift */,
@@ -138,6 +151,16 @@
 				AA45689927D80680004DFD8E /* GTStudyBuddyUITestsLaunchTests.swift */,
 			);
 			path = GTStudyBuddyUITests;
+			sourceTree = "<group>";
+		};
+		AA995BFF27E045F800BCACE2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA995C0027E046D200BCACE2 /* Course.swift */,
+				AA995C0127E046D200BCACE2 /* CourseSection.swift */,
+				AA995C0227E046D200BCACE2 /* Term.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,8 +302,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA995BF927E041ED00BCACE2 /* SignInView.swift in Sources */,
+				AA995C0727E0474900BCACE2 /* CourseDownloader.swift in Sources */,
 				AA995BFC27E0423100BCACE2 /* SetUpUserView.swift in Sources */,
+				AA995C0327E046D200BCACE2 /* Course.swift in Sources */,
 				AA45687F27D8067D004DFD8E /* ContentView.swift in Sources */,
+				AA995C0527E046D200BCACE2 /* Term.swift in Sources */,
+				AA995C0427E046D200BCACE2 /* CourseSection.swift in Sources */,
+				AA995C0927E04FA100BCACE2 /* CRNSetupView.swift in Sources */,
 				AA45687D27D8067D004DFD8E /* GTStudyBuddyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

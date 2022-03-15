@@ -40,7 +40,7 @@ struct SignInView: View {
                         .background(.blue)
                         .cornerRadius(15)
                 })
-                NavigationLink(destination: SetUpUserView(), isActive: $successLogin) {
+                NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
                     EmptyView()
                 }
                 
