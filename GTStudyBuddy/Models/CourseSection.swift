@@ -8,7 +8,7 @@
 import Foundation
 
 struct CourseSection: Identifiable, Codable {
-    var crn: String
+    var crn: String // i.e. 26340
     var sectionLabel: String // i.e. A, B, C, VPP, etc.
     var course: Course
     
