@@ -7,6 +7,7 @@
 
 import Foundation
 
+//arina changed this
 // ajay changed this
 class CourseDownloader {
     struct TermResponse: Codable {
