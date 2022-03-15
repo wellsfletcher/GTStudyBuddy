@@ -7,6 +7,7 @@
 
 import Foundation
 
+// fletcher changed this
 class CourseDownloader {
     struct TermResponse: Codable {
         let terms: [String]
