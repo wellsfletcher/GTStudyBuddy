@@ -8,6 +8,8 @@
 import Foundation
 
 // fletcher changed this
+//arina changed this
+// ajay changed this
 class CourseDownloader {
     struct TermResponse: Codable {
         let terms: [String]
