@@ -46,4 +46,6 @@ To become a contributor, drop your GitHub username and email into the iOS Club d
 4. When you complete an issue, write a comment on the issue that mentions one of the officers (i.e. include `@wellsfletcher`) and we review and potentially close the issue
 
 ## Relax
-If you are not super familiar with Git, relax. The repository is setup so that you can't directly commit to the `main` or `develop` branches, which means it is quite hard to accidentally break everything. Just be careful not to lose your own changes you've made.
+If you are not super familiar with Git, relax. The repository is setup so that you can't directly commit to the `main` or `develop` branches. You also can't merge your branch into the `main` or `develop` branches without your merge request being reviewed. This means it is very hard to accidentally break everything. Just be careful not to lose your own changes you've made.
+
+Also, don't worry about making extraneous branches or commits. We don't mind :)
