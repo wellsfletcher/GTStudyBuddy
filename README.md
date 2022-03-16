@@ -44,3 +44,6 @@ To become a contributor, drop your GitHub username and email into the iOS Club d
 2. Choose an issue you want. Issues labeled "Good first issue" are probably ones you want to work on
 3. When working on an issue, include the issue number in your commit messages. Make sure to proceed it with a "#" symbol. A nicely formatted commit message may look like "#11 - added alert for when the password is too short". GitHub will automatically convert the issue number in the commit message into a hyperlink to the issue. This makes it easier to track progress on issues and keep the repository organized
 4. When you complete an issue, write a comment on the issue that mentions one of the officers (i.e. include `@wellsfletcher`) and we review and potentially close the issue
+
+## Relax
+If you are not super familiar with Git, relax. The repository is setup so that you can't directly commit to the `main` or `develop` branches, which means it is quite hard to accidentally break everything. Just be careful not to lose your own changes you've made.
