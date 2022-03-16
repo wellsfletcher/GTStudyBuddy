@@ -26,6 +26,7 @@ To become a contributor, drop your GitHub username and email into the iOS Club d
 4. In Xcode, checkout your branch. Navigate to the source control tab by pressing `cmd + 2`. Checkout your branch by navigating to `Remotes/origin` and right clicking on your branch name and choosing `Check Out...`
 5. Make changes to your branch
 6. Commit and push your changes to your branch. Choose `Source Control/Commit...` from the menu bar. Check push to remote and make sure the correct branch is selected. Press the `Commit` button at the bottom right corner
+    > <img width="304" alt="5fetchChanges" src="https://user-images.githubusercontent.com/30359960/158496690-8c29d57d-3767-4ec6-a7b7-f4dbbd783fa1.png"> 
     > <img width="1331" alt="4commitAndPush" src="https://user-images.githubusercontent.com/30359960/158496727-5aca80a5-8161-4849-b6c5-07f713f3233f.png">
 7. Fetch and pull changes from develop branch 
     > <img width="304" alt="5fetchChanges" src="https://user-images.githubusercontent.com/30359960/158496690-8c29d57d-3767-4ec6-a7b7-f4dbbd783fa1.png"> 
