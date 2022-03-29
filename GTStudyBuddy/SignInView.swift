@@ -14,6 +14,7 @@ struct SignInView: View {
   @State var password = ""
   @State var confirmPassword = ""
   @State var successLogin: Bool = false
+  @State var uid: String?
   
   var body: some View {
     NavigationView {
@@ -41,7 +42,7 @@ struct SignInView: View {
             .background(.blue)
             .cornerRadius(15)
         })
-        NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
+        NavigationLink(destination: CRNSetupView(uid: self.uid), isActive: $successLogin) {
           EmptyView()
         }
         
@@ -67,6 +68,7 @@ struct SignInView: View {
     print("log in touched")
     Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
       if error == nil {
+        self.uid = authResult!.user.uid
         successLogin = true
         print("ran here")
       } else {
@@ -106,6 +108,7 @@ struct SignInView: View {
       } else {
         let db = Firestore.firestore()
         let user = authResult!.user
+        self.uid = user.uid
         db.collection("users").document(user.uid).setData(["email": user.email], merge: true)
       }
     }
