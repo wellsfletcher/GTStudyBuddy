@@ -10,8 +10,8 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct SignInView: View {
-  @State var email = ""
-  @State var password = ""
+  @State var email = "gwells9@gatech.edu"
+  @State var password = "password"
   @State var confirmPassword = ""
   @State var successLogin: Bool = false
   @State var uid: String?
