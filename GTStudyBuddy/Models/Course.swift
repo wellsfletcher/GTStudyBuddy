@@ -8,7 +8,7 @@
 import Foundation
 
 struct Course: Identifiable, Codable {
-    var id: String
+    var id: String // i.e. CS 1332
     var longTitle = ""
     var description: String?
 }
