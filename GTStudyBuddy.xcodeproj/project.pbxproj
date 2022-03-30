@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		851CDC2927F403E400562705 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851CDC2827F403E400562705 /* SignUpView.swift */; };
 		AA45687D27D8067D004DFD8E /* GTStudyBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45687C27D8067D004DFD8E /* GTStudyBuddyApp.swift */; };
 		AA45687F27D8067D004DFD8E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45687E27D8067D004DFD8E /* ContentView.swift */; };
 		AA45688127D8067F004DFD8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA45688027D8067F004DFD8E /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		851CDC2827F403E400562705 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		AA45687927D8067D004DFD8E /* GTStudyBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GTStudyBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA45687C27D8067D004DFD8E /* GTStudyBuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTStudyBuddyApp.swift; sourceTree = "<group>"; };
 		AA45687E27D8067D004DFD8E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				AA995BFB27E0423100BCACE2 /* SetUpUserView.swift */,
 				AA995C0827E04FA100BCACE2 /* CRNSetupView.swift */,
 				AA995BF727E041ED00BCACE2 /* SignInView.swift */,
+				851CDC2827F403E400562705 /* SignUpView.swift */,
 				AA45687C27D8067D004DFD8E /* GTStudyBuddyApp.swift */,
 				AA45687E27D8067D004DFD8E /* ContentView.swift */,
 				AA45688027D8067F004DFD8E /* Assets.xcassets */,
@@ -307,6 +310,7 @@
 				AA995C0327E046D200BCACE2 /* Course.swift in Sources */,
 				AA45687F27D8067D004DFD8E /* ContentView.swift in Sources */,
 				AA995C0527E046D200BCACE2 /* Term.swift in Sources */,
+				851CDC2927F403E400562705 /* SignUpView.swift in Sources */,
 				AA995C0427E046D200BCACE2 /* CourseSection.swift in Sources */,
 				AA995C0927E04FA100BCACE2 /* CRNSetupView.swift in Sources */,
 				AA45687D27D8067D004DFD8E /* GTStudyBuddyApp.swift in Sources */,
