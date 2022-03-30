@@ -31,41 +31,30 @@ struct SignInView: View {
 
           // Use a securefield for sensitive info
           // replaces text with dots and other secure features
-            if !showPass {
-                HStack {
+            HStack {
+                if !showPass {
                     SecureField("Password:", text: self.$password)
                         .padding()
                         .overlay(RoundedRectangle(cornerRadius: 12)
                                             .stroke(Color.secondary, lineWidth: 1)
                                             .foregroundColor(.clear))
-                
-                    Button(action: {
-                                    showPass.toggle()
-                                }, label: {
-                                    Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
-                                })
-                }
-                .padding(.leading, 0)
-                .padding(.top, 15)
-            } else {
-                HStack {
+                } else {
                     TextField("Password:", text: self.$password)
                         .padding()
                         .overlay(RoundedRectangle(cornerRadius: 12)
                                             .stroke(Color.secondary, lineWidth: 1)
                                             .foregroundColor(.clear))
-                
-                    Button(action: {
-                                    showPass.toggle()
-                                }, label: {
-                                    Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
-                                })
                 }
-                .padding(.leading, 0)
-                .padding(.top, 15)
+                Button(action: {
+                                showPass.toggle()
+                            }, label: {
+                                Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
+                            })
             }
+                .padding(.top)
+            
         }
-        .padding(.leading, 5)
+            .padding()
         
         Button(action: {
           logIn()
@@ -76,7 +65,7 @@ struct SignInView: View {
             .background(.blue)
             .cornerRadius(15)
         })
-        .padding()
+            .padding()
         NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
           EmptyView()
         }
@@ -89,7 +78,7 @@ struct SignInView: View {
                       .frame(width: 100, height: 50)
                       .overlay(
                         RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color.gray, lineWidth: 2.5)
+                            .stroke(Color.gray, lineWidth: 2)
                       )
               })
           }

@@ -32,8 +32,8 @@ struct SignUpView: View {
           
           // Use a securefield for sensitive info
           // replaces text with dots and other secure features
-            if !showPass {
-                HStack {
+            HStack {
+                if !showPass {
                     VStack {
                       SecureField("Password:", text: self.$password)
                             .padding()
@@ -47,15 +47,7 @@ struct SignUpView: View {
                                                 .stroke(Color.secondary, lineWidth: 1)
                                                 .foregroundColor(.clear))
                     }
-                    Button(action: {
-                                    showPass.toggle()
-                                }, label: {
-                                    Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
-                                })
-                }
-            }
-            else  {
-                HStack {
+                } else {
                     VStack {
                       TextField("Password:", text: self.$password)
                             .padding()
@@ -69,29 +61,30 @@ struct SignUpView: View {
                                                 .stroke(Color.secondary, lineWidth: 1)
                                                 .foregroundColor(.clear))
                     }
-                    Button(action: {
-                                    showPass.toggle()
-                                }, label: {
-                                    Image(systemName: showPass ? "eye.slash.fill" : "eye.fill")
-                                })
                 }
-            }
+                Button(action: {
+                                showPass.toggle()
+                            }, label: {
+                                Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
+                            })
+        }
         }
         .padding()
           
         //first task: create sign in functionality
-        Button(action: {
-          signUp()
-        }, label: {
-          Text("Sign Up")
-            .foregroundColor(.white)
-            .frame(width: 100, height: 50)
-            .background(.blue)
-            .cornerRadius(15)
-        })
-        .padding(.top, 30)
+          NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
+              Button(action: {
+              signUp()
+            }, label: {
+              Text("Sign Up")
+                .foregroundColor(.white)
+                .frame(width: 100, height: 50)
+                .background(.blue)
+                .cornerRadius(15)
+            })
+            .padding(.top, 30)
+          }
         Spacer()
-        
       }
     }
   }
@@ -127,6 +120,7 @@ struct SignUpView: View {
         let db = Firestore.firestore()
         let user = authResult!.user
         db.collection("users").document(user.uid).setData(["email": user.email], merge: true)
+        successLogin = true
       }
     }
   }
