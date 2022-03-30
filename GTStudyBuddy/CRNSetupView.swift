@@ -24,45 +24,47 @@ struct CRNSetupView: View {
     @State var areTermsLoaded = false
     
     var body: some View {
-        VStack {
-            Picker("Choose a term", selection: $selectedTermId) {
-                ForEach(terms) { term in
-                    Text(term.name)
+            VStack {
+                Picker("Choose a term", selection: $selectedTermId) {
+                    ForEach(terms) { term in
+                        Text(term.name)
+                    }
                 }
-            }
-            .padding()
-            
-            
-            TextField("Enter CRNs", text: $crnInput).padding()
-            
-            Button(action: {
-                storeCRN()
-                if crnNumbers != nil && !crnNumbers!.contains(crnInput) {
-                    crnNumbers?.append(crnInput)
-                    updateSections()
-                }
-            }, label: {
-                Text("Add CRN")
-            }).padding()
-            
-            if (crnNumbers != nil) {
-                List {
-                    ForEach (self.sections) { section in
-                        VStack(alignment: .leading) {
-                            let course = section.course
-                            Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).font(.headline)
-                            Text(course.description ?? "")
-                        }.padding()
+                .padding()
+                
+                
+                TextField("Enter CRNs", text: $crnInput).padding()
+                
+                Button(action: {
+                    storeCRN()
+                    if crnNumbers != nil && !crnNumbers!.contains(crnInput) {
+                        crnNumbers?.append(crnInput)
+                        updateSections()
+                    }
+                }, label: {
+                    Text("Add CRN")
+                }).padding()
+                
+                
+                if (crnNumbers != nil) {
+                    List {
+                        ForEach (self.sections) { section in
+                            VStack(alignment: .leading) {
+                                let course = section.course
+                                Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).font(.headline)
+                                Text(course.description ?? "")
+                            }.padding()
+                        }
                     }
                 }
             }
-        }
-        .onAppear {
-            fetchTerms()
-            fetchSections()
-            // call function to get crn numbers
-            // self.fetchCRN()
+            .onAppear {
+                fetchTerms()
+                fetchSections()
+                // call function to get crn numbers
+                // self.fetchCRN()
         }.navigationTitle("CRN Setup")
+
     }
     
     func fetchTerms() {

@@ -15,6 +15,7 @@ struct SignInView: View {
   @State var confirmPassword = ""
   @State var successLogin: Bool = false
   @State var uid: String?
+  @State var showInformationForm: Bool = false
   
   var body: some View {
     NavigationView {
@@ -45,6 +46,9 @@ struct SignInView: View {
         NavigationLink(destination: CRNSetupView(uid: self.uid), isActive: $successLogin) {
           EmptyView()
         }
+        NavigationLink(destination: InformationForm(uid: self.uid), isActive: $showInformationForm){
+          EmptyView()
+        }
         
         //first task: create sign in functionality
         Button(action: {
@@ -56,6 +60,15 @@ struct SignInView: View {
             .background(.blue)
             .cornerRadius(15)
         })
+          Button(action: {
+            fillform()
+          }, label: {
+            Text("Fill Information Form")
+              .foregroundColor(.white)
+              .frame(width: 200, height: 50)
+              .background(.blue)
+              .cornerRadius(15)
+          })
         Spacer()
         
       }
@@ -77,6 +90,17 @@ struct SignInView: View {
       }
     }
   }
+
+    func fillform() {
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+          if error == nil {
+            self.uid = authResult!.user.uid
+            showInformationForm = true
+          } else {
+            print(error?.localizedDescription as Any)
+          }
+        }
+    }
   
   func signUp() {
     if password.count < 8 {

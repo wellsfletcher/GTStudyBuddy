@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		247F84B927F429B6005930A4 /* InformationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247F84B827F429B6005930A4 /* InformationForm.swift */; };
 		AA45687D27D8067D004DFD8E /* GTStudyBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45687C27D8067D004DFD8E /* GTStudyBuddyApp.swift */; };
 		AA45687F27D8067D004DFD8E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45687E27D8067D004DFD8E /* ContentView.swift */; };
 		AA45688127D8067F004DFD8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA45688027D8067F004DFD8E /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		247F84B827F429B6005930A4 /* InformationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationForm.swift; sourceTree = "<group>"; };
 		AA45687927D8067D004DFD8E /* GTStudyBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GTStudyBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA45687C27D8067D004DFD8E /* GTStudyBuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTStudyBuddyApp.swift; sourceTree = "<group>"; };
 		AA45687E27D8067D004DFD8E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				AA45687E27D8067D004DFD8E /* ContentView.swift */,
 				AA45688027D8067F004DFD8E /* Assets.xcassets */,
 				AA45688227D8067F004DFD8E /* Preview Content */,
+				247F84B827F429B6005930A4 /* InformationForm.swift */,
 			);
 			path = GTStudyBuddy;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				AA995C0727E0474900BCACE2 /* CourseDownloader.swift in Sources */,
 				AA995BFC27E0423100BCACE2 /* SetUpUserView.swift in Sources */,
 				AA995C0327E046D200BCACE2 /* Course.swift in Sources */,
+				247F84B927F429B6005930A4 /* InformationForm.swift in Sources */,
 				AA45687F27D8067D004DFD8E /* ContentView.swift in Sources */,
 				AA995C0527E046D200BCACE2 /* Term.swift in Sources */,
 				AA995C0427E046D200BCACE2 /* CourseSection.swift in Sources */,
