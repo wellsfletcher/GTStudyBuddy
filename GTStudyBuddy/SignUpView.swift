@@ -19,9 +19,6 @@ struct SignUpView: View {
 
   var body: some View {
       VStack {
-        Text("Sign up to be a part of GT Study Buddy!")
-          .font(.title)
-        
         VStack(alignment: .leading) {
           TextField("Email:", text: self.$email)
                 .padding()
@@ -85,7 +82,7 @@ struct SignUpView: View {
             .padding(.top, 30)
           }
         Spacer()
-      }.navigationTitle("Join GT Study Buddy")
+      }.navigationTitle("Join GT Study Buddy").padding()
     }
   
   func signUp() {

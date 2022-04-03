@@ -111,10 +111,9 @@ struct SignInView: View {
           } // .padding()
         Spacer()
         
-      }.navigationTitle("Enter GT Study Buddy")
+      }.navigationTitle("Enter GT Study Buddy").padding()
     }
     
-    .padding()
   }
   
   func logIn() {
