@@ -15,9 +15,9 @@ struct SignUpView: View {
   @State var confirmPassword = ""
   @State private var showPass: Bool = false
   @State var successLogin: Bool = false
+  @State var uid: String?
 
   var body: some View {
-    NavigationView {
       VStack {
         Text("Sign up to be a part of GT Study Buddy!")
           .font(.title)
@@ -26,7 +26,7 @@ struct SignUpView: View {
           TextField("Email:", text: self.$email)
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.secondary, lineWidth: 1)
+                                    .stroke(Color(.systemGray3), lineWidth: 1)
                                     .foregroundColor(.clear))
                 .padding(.bottom, 30)
           
@@ -38,13 +38,13 @@ struct SignUpView: View {
                       SecureField("Password:", text: self.$password)
                             .padding()
                             .overlay(RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color.secondary, lineWidth: 1)
+                                                .stroke(Color(.systemGray3), lineWidth: 1)
                                                 .foregroundColor(.clear))
                       
                       SecureField("Confirm Password:", text: self.$confirmPassword)
                             .padding()
                             .overlay(RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color.secondary, lineWidth: 1)
+                                                .stroke(Color(.systemGray3), lineWidth: 1)
                                                 .foregroundColor(.clear))
                     }
                 } else {
@@ -52,13 +52,13 @@ struct SignUpView: View {
                       TextField("Password:", text: self.$password)
                             .padding()
                             .overlay(RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color.secondary, lineWidth: 1)
+                                                .stroke(Color(.systemGray3), lineWidth: 1)
                                                 .foregroundColor(.clear))
                       
                       TextField("Confirm Password:", text: self.$confirmPassword)
                             .padding()
                             .overlay(RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color.secondary, lineWidth: 1)
+                                                .stroke(Color(.systemGray3), lineWidth: 1)
                                                 .foregroundColor(.clear))
                     }
                 }
@@ -72,7 +72,7 @@ struct SignUpView: View {
         .padding()
           
         //first task: create sign in functionality
-          NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
+          NavigationLink(destination: CRNSetupView(uid: self.uid), isActive: $successLogin) {
               Button(action: {
               signUp()
             }, label: {
@@ -85,9 +85,8 @@ struct SignUpView: View {
             .padding(.top, 30)
           }
         Spacer()
-      }
+      }.navigationTitle("Join GT Study Buddy")
     }
-  }
   
   func signUp() {
     if password.count < 8 {
@@ -119,6 +118,7 @@ struct SignUpView: View {
       } else {
         let db = Firestore.firestore()
         let user = authResult!.user
+        self.uid = user.uid
         db.collection("users").document(user.uid).setData(["email": user.email], merge: true)
         successLogin = true
       }

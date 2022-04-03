@@ -51,6 +51,7 @@ struct CRNSetupView: View {
                         ForEach (self.sections) { section in
                             VStack(alignment: .leading) {
                                 let course = section.course
+                                Text(section.crn).font(.subheadline)
                                 Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).font(.headline)
                                 Text(course.description ?? "")
                             }.padding()
@@ -63,7 +64,7 @@ struct CRNSetupView: View {
                 fetchSections()
                 // call function to get crn numbers
                 // self.fetchCRN()
-        }.navigationTitle("CRN Setup")
+        }.navigationTitle("Setup CRNs")
 
     }
     
