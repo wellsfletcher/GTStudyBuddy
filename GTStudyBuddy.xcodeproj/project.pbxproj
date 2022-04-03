@@ -26,6 +26,9 @@
 		AA995C0527E046D200BCACE2 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995C0227E046D200BCACE2 /* Term.swift */; };
 		AA995C0727E0474900BCACE2 /* CourseDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995C0627E0474900BCACE2 /* CourseDownloader.swift */; };
 		AA995C0927E04FA100BCACE2 /* CRNSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA995C0827E04FA100BCACE2 /* CRNSetupView.swift */; };
+		AAF1F28427F98C7600CB3910 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF1F28327F98C7600CB3910 /* Chat.swift */; };
+		AAF1F28627F98CB100CB3910 /* ChatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF1F28527F98CB100CB3910 /* ChatsView.swift */; };
+		AAF1F28827F98CBB00CB3910 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF1F28727F98CBB00CB3910 /* ChatView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +69,9 @@
 		AA995C0227E046D200BCACE2 /* Term.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
 		AA995C0627E0474900BCACE2 /* CourseDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDownloader.swift; sourceTree = "<group>"; };
 		AA995C0827E04FA100BCACE2 /* CRNSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRNSetupView.swift; sourceTree = "<group>"; };
+		AAF1F28327F98C7600CB3910 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		AAF1F28527F98CB100CB3910 /* ChatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsView.swift; sourceTree = "<group>"; };
+		AAF1F28727F98CBB00CB3910 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +136,8 @@
 				AA45688027D8067F004DFD8E /* Assets.xcassets */,
 				AA45688227D8067F004DFD8E /* Preview Content */,
 				247F84B827F429B6005930A4 /* InformationForm.swift */,
+				AAF1F28527F98CB100CB3910 /* ChatsView.swift */,
+				AAF1F28727F98CBB00CB3910 /* ChatView.swift */,
 			);
 			path = GTStudyBuddy;
 			sourceTree = "<group>";
@@ -165,6 +173,7 @@
 				AA995C0027E046D200BCACE2 /* Course.swift */,
 				AA995C0127E046D200BCACE2 /* CourseSection.swift */,
 				AA995C0227E046D200BCACE2 /* Term.swift */,
+				AAF1F28327F98C7600CB3910 /* Chat.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -308,7 +317,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA995BF927E041ED00BCACE2 /* SignInView.swift in Sources */,
+				AAF1F28427F98C7600CB3910 /* Chat.swift in Sources */,
+				AAF1F28627F98CB100CB3910 /* ChatsView.swift in Sources */,
 				AA995C0727E0474900BCACE2 /* CourseDownloader.swift in Sources */,
+				AAF1F28827F98CBB00CB3910 /* ChatView.swift in Sources */,
 				AA995BFC27E0423100BCACE2 /* SetUpUserView.swift in Sources */,
 				AA995C0327E046D200BCACE2 /* Course.swift in Sources */,
 				247F84B927F429B6005930A4 /* InformationForm.swift in Sources */,

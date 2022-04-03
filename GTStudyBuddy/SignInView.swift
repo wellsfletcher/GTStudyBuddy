@@ -23,14 +23,12 @@ struct SignInView: View {
   var body: some View {
     NavigationView {
       VStack {
-        Text("Sign in to GT Study Buddy:")
-          .font(.title)
-        
+    
         VStack(alignment: .leading) {
             TextField("Email:", text: self.$email)
                   .padding()
                   .overlay(RoundedRectangle(cornerRadius: 12)
-                                      .stroke(Color.secondary, lineWidth: 1)
+                            .stroke(Color(.systemGray3), lineWidth: 1)
                                       .foregroundColor(.clear))
 
           // Use a securefield for sensitive info
@@ -40,13 +38,13 @@ struct SignInView: View {
                     SecureField("Password:", text: self.$password)
                         .padding()
                         .overlay(RoundedRectangle(cornerRadius: 12)
-                                            .stroke(Color.secondary, lineWidth: 1)
+                                            .stroke(Color(.systemGray3), lineWidth: 1)
                                             .foregroundColor(.clear))
                 } else {
                     TextField("Password:", text: self.$password)
                         .padding()
                         .overlay(RoundedRectangle(cornerRadius: 12)
-                                            .stroke(Color.secondary, lineWidth: 1)
+                                            .stroke(Color(.systemGray3), lineWidth: 1)
                                             .foregroundColor(.clear))
                 }
                 Button(action: {
@@ -68,9 +66,9 @@ struct SignInView: View {
             .frame(width: 100, height: 50)
             .background(.blue)
             .cornerRadius(15)
-        })
-        .padding()
-        NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
+        }).padding()
+        // .padding()
+        NavigationLink(destination: CRNSetupView(uid: self.uid), isActive: $successLogin) {
           EmptyView()
         }
         NavigationLink(destination: InformationForm(uid: self.uid), isActive: $showInformationForm){
@@ -78,8 +76,9 @@ struct SignInView: View {
         }
         
         //first task: create sign in functionality
+          /*
         Button(action: {
-          signUp()
+          //- signUp()
         }, label: {
           Text("Sign Up")
             .foregroundColor(.white)
@@ -87,6 +86,7 @@ struct SignInView: View {
             .background(.blue)
             .cornerRadius(15)
         })
+           */
           Button(action: {
             fillform()
           }, label: {
@@ -105,16 +105,15 @@ struct SignInView: View {
                       .frame(width: 100, height: 50)
                       .overlay(
                         RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color.gray, lineWidth: 2)
+                            .stroke(Color(.systemGray3), lineWidth: 1)
                       )
               })
-          }
+          } // .padding()
         Spacer()
         
-      }
+      }.navigationTitle("Enter GT Study Buddy").padding()
     }
     
-    .padding()
   }
   
   func logIn() {

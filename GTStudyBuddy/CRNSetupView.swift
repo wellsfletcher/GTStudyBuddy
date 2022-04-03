@@ -24,12 +24,14 @@ struct CRNSetupView: View {
     @State var areTermsLoaded = false
     
     var body: some View {
-            VStack {
+        VStack {
+            List {
                 Picker("Choose a term", selection: $selectedTermId) {
                     ForEach(terms) { term in
                         Text(term.name)
                     }
                 }
+                // }
                 .padding()
                 
                 
@@ -46,25 +48,36 @@ struct CRNSetupView: View {
                 }).padding()
                 
                 
-                if (crnNumbers != nil) {
-                    List {
+                SwiftUI.Section(content: {
+                    if (crnNumbers != nil) {
+                        // List {
                         ForEach (self.sections) { section in
                             VStack(alignment: .leading) {
                                 let course = section.course
+                                Text(section.crn).font(.subheadline)
                                 Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).font(.headline)
                                 Text(course.description ?? "")
                             }.padding()
                         }
+                        // }
                     }
-                }
+                }, header: {
+                    Text("Courses")
+                })
             }
-            .onAppear {
-                fetchTerms()
-                fetchSections()
-                // call function to get crn numbers
-                // self.fetchCRN()
-        }.navigationTitle("CRN Setup")
-
+            
+            
+            NavigationLink(destination: ChatsView(sections: $sections), label: {
+                Text("Chat now!")
+            })
+                .disabled(!areCoursesLoaded).padding()
+        }
+        .onAppear {
+            fetchTerms()
+            fetchSections()
+            // call function to get crn numbers
+            // self.fetchCRN()
+        }.navigationTitle("Setup CRNs")
     }
     
     func fetchTerms() {
