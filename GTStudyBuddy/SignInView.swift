@@ -10,6 +10,9 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct SignInView: View {
+  @State var showPass: Bool = false
+  @State var signUp: Bool = false
+
   @State var email = "gwells9@gatech.edu"
   @State var password = "password"
   @State var confirmPassword = ""
@@ -20,19 +23,42 @@ struct SignInView: View {
   var body: some View {
     NavigationView {
       VStack {
-        Text("Sign up to be a part of GT Study Buddy!")
+        Text("Sign in to GT Study Buddy:")
           .font(.title)
         
         VStack(alignment: .leading) {
-          TextField("Email", text: self.$email)
-          
+            TextField("Email:", text: self.$email)
+                  .padding()
+                  .overlay(RoundedRectangle(cornerRadius: 12)
+                                      .stroke(Color.secondary, lineWidth: 1)
+                                      .foregroundColor(.clear))
+
           // Use a securefield for sensitive info
           // replaces text with dots and other secure features
-          SecureField("Password", text: self.$password)
-          
-          SecureField("Confirm Password", text: self.$confirmPassword)
+            HStack {
+                if !showPass {
+                    SecureField("Password:", text: self.$password)
+                        .padding()
+                        .overlay(RoundedRectangle(cornerRadius: 12)
+                                            .stroke(Color.secondary, lineWidth: 1)
+                                            .foregroundColor(.clear))
+                } else {
+                    TextField("Password:", text: self.$password)
+                        .padding()
+                        .overlay(RoundedRectangle(cornerRadius: 12)
+                                            .stroke(Color.secondary, lineWidth: 1)
+                                            .foregroundColor(.clear))
+                }
+                Button(action: {
+                                showPass.toggle()
+                            }, label: {
+                                Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
+                            })
+            }
+                .padding(.top)
+            
         }
-        .padding()
+            .padding()
         
         Button(action: {
           logIn()
@@ -43,7 +69,8 @@ struct SignInView: View {
             .background(.blue)
             .cornerRadius(15)
         })
-        NavigationLink(destination: CRNSetupView(uid: self.uid), isActive: $successLogin) {
+        .padding()
+        NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
           EmptyView()
         }
         NavigationLink(destination: InformationForm(uid: self.uid), isActive: $showInformationForm){
@@ -69,6 +96,19 @@ struct SignInView: View {
               .background(.blue)
               .cornerRadius(15)
           })
+        
+          NavigationLink(destination: SignUpView(), isActive: $signUp) {
+              Button(action: {
+                  signUp = true
+              }, label: {
+                  Text("Sign Up")
+                      .frame(width: 100, height: 50)
+                      .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.gray, lineWidth: 2)
+                      )
+              })
+          }
         Spacer()
         
       }
@@ -78,12 +118,11 @@ struct SignInView: View {
   }
   
   func logIn() {
-    print("log in touched")
     Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
       if error == nil {
         self.uid = authResult!.user.uid
         successLogin = true
-        print("ran here")
+        print("successfully logged in")
       } else {
         print(error?.localizedDescription as Any)
         
@@ -102,6 +141,7 @@ struct SignInView: View {
         }
     }
   
+  /*
   func signUp() {
     if password.count < 8 {
       print("Password must be at least 8 characters.")
@@ -137,10 +177,10 @@ struct SignInView: View {
       }
     }
   }
-  
+  */
   
 }
-
+    
 struct SignInView_Previews: PreviewProvider {
   static var previews: some View {
     SignInView()
