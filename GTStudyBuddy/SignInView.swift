@@ -75,28 +75,6 @@ struct SignInView: View {
           EmptyView()
         }
         
-        //first task: create sign in functionality
-          /*
-        Button(action: {
-          //- signUp()
-        }, label: {
-          Text("Sign Up")
-            .foregroundColor(.white)
-            .frame(width: 100, height: 50)
-            .background(.blue)
-            .cornerRadius(15)
-        })
-           */
-          Button(action: {
-            fillform()
-          }, label: {
-            Text("Fill Information Form")
-              .foregroundColor(.white)
-              .frame(width: 200, height: 50)
-              .background(.blue)
-              .cornerRadius(15)
-          })
-        
           NavigationLink(destination: SignUpView(), isActive: $signUp) {
               Button(action: {
                   signUp = true
