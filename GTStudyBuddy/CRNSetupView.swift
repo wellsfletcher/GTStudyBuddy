@@ -26,6 +26,12 @@ struct CRNSetupView: View {
     var body: some View {
         VStack {
             List {
+                
+                NavigationLink(destination: InformationForm(uid: self.uid), label: {
+                    Text("Edit profile")
+                }).padding()
+              
+                
                 Picker("Choose a term", selection: $selectedTermId) {
                     ForEach(terms) { term in
                         Text(term.name)
@@ -44,7 +50,7 @@ struct CRNSetupView: View {
                         updateSections()
                     }
                 }, label: {
-                    Text("Add CRN")
+                    Text("Add CRN") // change to "Update CRNs"
                 }).padding()
                 
                 
