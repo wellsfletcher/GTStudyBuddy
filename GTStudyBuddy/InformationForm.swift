@@ -14,43 +14,69 @@ struct InformationForm: View {
     @State var terms: [Term] = [Term(id: "202202"), Term(id: "202108")]
     @State var selectedTermId = "202202"
     @State var phoneNumber = ""
+    @State var submitTapped: Bool = false
     @State var studentOrganization = ""
     
     var uid: String?
     
     var body: some View {
-        VStack {
-            Text("Information Form:")
-                .multilineTextAlignment(.center)
-            TextField("Enter your Name", text: $fullname)
-                .multilineTextAlignment(.center)
-            Picker("", selection: $selectedTermId) {
-                ForEach(terms) { term in
-                    Text(term.name)
+        ZStack {
+            VStack {
+               
+                VStack {
+                    Text("Information Form")
+                        .multilineTextAlignment(.center).font(.largeTitle.bold()).position(x: 150, y: 20).frame(width: 310, height: 40, alignment: .center).padding(.vertical).ignoresSafeArea(.keyboard)
+                    TextField("Enter your Name", text: $fullname)
+                        .multilineTextAlignment(.center).padding(.vertical)
+                    Picker("", selection: $selectedTermId) {
+                        ForEach(terms) { term in
+                            Text(term.name)
+                        }
+                    }.padding(.vertical).ignoresSafeArea(.keyboard)
+                    TextField("Enter CRNs comma separated", text: $crnString).padding(.vertical)
+                    TextField("Enter Phone Number", text: $phoneNumber).padding(.vertical)
+                    TextField("Enter your Student Organizations comma separated", text: $studentOrganization).padding(.vertical)
                 }
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+                .lineSpacing(35)
+                .onAppear{
+                    fetchTerms()
+                    print(terms)
+                }
+                VStack {
+                Button(action:{
+                    submitForm()
+                },
+                    // Animation added, expand and shrink upon submit click
+                    // Click now
+                    label:{
+                        Text("Submit Form").foregroundColor(.white)
+                        .frame(width: 200, height: 50)
+                        .background(.blue)
+                        .cornerRadius(15).padding(.top)
+                        .scaleEffect(submitTapped ? 1.2 : 1)
+                        .animation(Animation.spring(response: 0.3, dampingFraction: 0.6), value: submitTapped)
+                        .onTapGesture {
+                            submitTapped = true
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+                                submitTapped = false
+                            }
+                        }
+                    
+                }).ignoresSafeArea(.keyboard)
+                }
+                
+                Spacer()
+            
             }
-            TextField("Enter CRNs comma separated", text: $crnString)
-            TextField("Enter Phone Number", text: $phoneNumber)
-            TextField("Enter your Student Organizations comma separated", text: $studentOrganization)
-            Button(action:{
-                submitForm()
-            },
-                   label:{
-                Text("Submit Form")
-            })
-            .foregroundColor(.white)
-            .frame(width: 200, height: 50)
-            .background(.blue)
-            .cornerRadius(15)
-        }
-        .multilineTextAlignment(.center)
-        .padding(.horizontal)
-        .onAppear{
-            fetchTerms()
-            print(terms)
-        }
         
     }
+        
+    }
+    
+
+    
     func submitForm() {
         let db = Firestore.firestore()
         let ref = db.collection("users").document(self.uid!)
