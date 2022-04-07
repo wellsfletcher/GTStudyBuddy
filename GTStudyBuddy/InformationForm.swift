@@ -21,37 +21,45 @@ struct InformationForm: View {
     
     var body: some View {
         ZStack {
-            VStack {
-               
-                VStack {
-                    Text("Information Form")
-                        .multilineTextAlignment(.center).font(.largeTitle.bold()).position(x: 150, y: 20).frame(width: 310, height: 40, alignment: .center).padding(.vertical).ignoresSafeArea(.keyboard)
-                    TextField("Enter your Name", text: $fullname)
-                        .multilineTextAlignment(.center).padding(.vertical)
+            
+            Form {
+                Section("Name") {
+                    TextField("Enter name", text: $fullname)
+                }
+                
+                // I think this shouldn't exist
+                Section("Term") {
                     Picker("", selection: $selectedTermId) {
                         ForEach(terms) { term in
                             Text(term.name)
                         }
-                    }.padding(.vertical).ignoresSafeArea(.keyboard)
-                    TextField("Enter CRNs comma separated", text: $crnString).padding(.vertical)
-                    TextField("Enter Phone Number", text: $phoneNumber).padding(.vertical)
-                    TextField("Enter your Student Organizations comma separated", text: $studentOrganization).padding(.vertical)
+                    }
                 }
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-                .lineSpacing(35)
-                .onAppear{
-                    fetchTerms()
-                    print(terms)
+                
+                // I think this shouldn't exist
+                Section("CRNs") {
+                    TextField("Enter CRNs as a comma separated list", text: $crnString)
                 }
-                VStack {
+                
+                Section("Phone number") {
+                    TextField("Enter phone number", text: $phoneNumber)
+                }
+                
+                Section("Student organizations") {
+                    TextField("Enter student organizations as a comma separated list", text: $studentOrganization)// .padding(.vertical)
+                }
+            }
+            
+            VStack {
+                Spacer()
+                
                 Button(action:{
                     submitForm()
                 },
-                    // Animation added, expand and shrink upon submit click
-                    // Click now
-                    label:{
-                        Text("Submit Form").foregroundColor(.white)
+                       // Animation added, expand and shrink upon submit click
+                       // Click now
+                       label:{
+                    Text("Save Changes").foregroundColor(.white)
                         .frame(width: 200, height: 50)
                         .background(.blue)
                         .cornerRadius(15).padding(.top)
@@ -64,18 +72,18 @@ struct InformationForm: View {
                             }
                         }
                     
-                }).ignoresSafeArea(.keyboard)
-                }
-                
-                Spacer()
-            
+                }).ignoresSafeArea(.keyboard).padding()
             }
-        
-    }
-        
+                
+        }
+         
+        .onAppear{
+            fetchTerms()
+            print(terms)
+        }.navigationTitle("Edit Profile")
     }
     
-
+    
     
     func submitForm() {
         let db = Firestore.firestore()
