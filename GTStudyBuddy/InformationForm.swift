@@ -28,8 +28,8 @@ struct InformationForm: View {
                 }
                 
                 // I think this shouldn't exist
-                Section("Term") {
-                    Picker("", selection: $selectedTermId) {
+                Section("First Semester on Campus") {
+                    Picker("Choose a term", selection: $selectedTermId) {
                         ForEach(terms) { term in
                             Text(term.name)
                         }
