@@ -35,11 +35,7 @@ struct InformationForm: View {
                         }
                     }
                 }
-                
-                // I think this shouldn't exist
-                Section("CRNs") {
-                    TextField("Enter CRNs as a comma separated list", text: $crnString)
-                }
+            
                 
                 Section("Phone number") {
                     TextField("Enter phone number", text: $phoneNumber)
@@ -99,7 +95,7 @@ struct InformationForm: View {
          self.terms = terms
          }*/
         CourseDownloader.downloadTerms(completion: { terms in
-            self.terms = terms
+            self.terms = [Term(id: "201808"), Term(id: "201902"), Term(id: "201905"), Term(id: "201908"), Term(id: "202002"), Term(id: "202005")] + terms
         })
     }
     
