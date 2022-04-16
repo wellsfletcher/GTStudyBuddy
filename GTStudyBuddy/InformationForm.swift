@@ -13,11 +13,15 @@ struct InformationForm: View {
     @State var crnString: String = ""
     @State var terms: [Term] = [Term(id: "202202"), Term(id: "202108")]
     @State var selectedTermId = "202202"
+    @State var selectedTermName = ""
     @State var phoneNumber = ""
     @State var submitTapped: Bool = false
     @State var studentOrganization = ""
-    
+    @State var loaded = false
+    @State var pickerAccessed = false
+
     var uid: String?
+
     
     var body: some View {
         ZStack {
@@ -33,7 +37,7 @@ struct InformationForm: View {
                         ForEach(terms) { term in
                             Text(term.name)
                         }
-                    }
+                    }.onAppear{pickerAccessed = true}.onDisappear{pickerAccessed=false}
                 }
             
                 
@@ -51,6 +55,11 @@ struct InformationForm: View {
                 
                 Button(action:{
                     submitForm()
+                    
+                    submitTapped = true
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+                        submitTapped = false
+                    }
                 },
                        // Animation added, expand and shrink upon submit click
                        // Click now
@@ -61,12 +70,6 @@ struct InformationForm: View {
                         .cornerRadius(15).padding(.top)
                         .scaleEffect(submitTapped ? 1.2 : 1)
                         .animation(Animation.spring(response: 0.3, dampingFraction: 0.6), value: submitTapped)
-                        .onTapGesture {
-                            submitTapped = true
-                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
-                                submitTapped = false
-                            }
-                        }
                     
                 }).ignoresSafeArea(.keyboard).padding()
             }
@@ -74,9 +77,22 @@ struct InformationForm: View {
         }
          
         .onAppear{
+            print(loaded)
             fetchTerms()
             print(terms)
-        }.navigationTitle("Edit Profile")
+        
+            if !loaded {
+                onLoad()
+            }
+            
+            loaded = true
+        }
+        .navigationTitle("Edit Profile").onDisappear{
+            if pickerAccessed {
+                loaded = false
+            }
+        }
+        
     }
     
     
@@ -87,6 +103,7 @@ struct InformationForm: View {
         
         // Atomically add a new region to the "regions" array field.
         ref.setData(["fullname": fullname, "startingTerm": selectedTermId, "CRNs": csv2list(crnString), "phoneNumber": phoneNumber, "studentOrganizations": csv2list(studentOrganization)], merge: true)
+        loaded = false
     }
     
     func fetchTerms() {
@@ -105,6 +122,49 @@ struct InformationForm: View {
             .compactMap {
                 $0.trimmingCharacters(in: .whitespaces)
             }
+    }
+    
+    func onLoad() {
+        let db = Firestore.firestore()
+        let ref = db.collection("users").document(self.uid!)
+        
+        ref.getDocument() { (document, error) in
+            if let document = document { // if there's a value in document, unwrap
+                let data = document.data()
+                let fetchedTerm = data!["startingTerm"] as? String ?? ""
+                
+                fullname = data!["fullname"] as? String ?? "No full name"
+                selectedTermId = fetchedTerm
+                
+            
+                //crnString = data!["CRNs"] as? String ?? "No CRN String"
+                phoneNumber = data!["phoneNumber"] as?  String ?? "no phone number"
+                print("Full name: \(fullname)")
+                //print("CRN: \(crnString)")
+                print("phone number: \(phoneNumber)")
+                let fetchedStudentOrgs =  data!["studentOrganizations"] as?  Array<String> ?? [""]
+                var count = 0
+                var studOrgsFetched = ""
+                for org in fetchedStudentOrgs {
+                    if count != fetchedStudentOrgs.count -  1 {
+                        studOrgsFetched += org + ", "
+                    } else {
+                        studOrgsFetched += org
+
+                    }
+                    count+=1
+                }
+                
+                studentOrganization = studOrgsFetched
+                
+                
+                
+              } else {
+                print("Document does not exist in cache")
+              }
+        }
+
+        
     }
 }
 
