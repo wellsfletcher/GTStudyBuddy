@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 
 struct CRNSetupView: View {
-    @State var crnInput: String = "32615" // 26340, 32615, 28845
+    @State var crnInput: String = ""
     @State var sections: [CourseSection] = []
     
     @State var terms: [Term] = [Term(id: "202202"), Term(id: "202108")]
@@ -22,6 +22,7 @@ struct CRNSetupView: View {
     
     @State var areCoursesLoaded = false
     @State var areTermsLoaded = false
+    @State var crnInvalid = false
     
     var body: some View {
         VStack {
@@ -40,18 +41,38 @@ struct CRNSetupView: View {
                 // }
                 .padding()
                 
+                HStack {
+                    Text("CRNs: ")
+                    TextField("Enter CRNs", text: $crnInput).padding()
+                }
+                .padding([.leading], 15)
                 
-                TextField("Enter CRNs", text: $crnInput).padding()
+                
                 
                 Button(action: {
-                    storeCRN()
-                    if crnNumbers != nil && !crnNumbers!.contains(crnInput) {
-                        crnNumbers?.append(crnInput)
+                    crnNumbers = crnInput.components(separatedBy: ", ")
+                    for eachCRN in crnNumbers! {
+                        if eachCRN.count != 5 {
+                            crnInvalid = true
+                        }
+                    }
+                    if !crnInvalid {
+                        storeCRN()
                         updateSections()
                     }
+                    
                 }, label: {
-                    Text("Add CRN") // change to "Update CRNs"
-                }).padding()
+                    Text("Update CRNs") // change to "Update CRNs"
+                })
+                    .padding()
+                    .alert(isPresented: $crnInvalid) {
+                        Alert(
+                            title: Text("CRN format incorrect"),
+                            message: Text("Please add your valid CRNs separated by a comma and space"),
+                            dismissButton: .default(Text("Ok"))
+                        )
+                    }
+                    
                 
                 
                 SwiftUI.Section(content: {
@@ -82,7 +103,7 @@ struct CRNSetupView: View {
             fetchTerms()
             fetchSections()
             // call function to get crn numbers
-            // self.fetchCRN()
+             self.fetchCRN()
         }.navigationTitle("Setup CRNs")
     }
     
@@ -102,8 +123,9 @@ struct CRNSetupView: View {
         let ref = db.collection("users").document(self.uid!)
         
         // Atomically add a new region to the "regions" array field.
+        
         ref.updateData([
-            "classes": FieldValue.arrayUnion([crnInput])
+            "classes": crnNumbers
         ])
     }
     
@@ -115,7 +137,7 @@ struct CRNSetupView: View {
                 let dataDescription = document.data()
                 if dataDescription!["classes"] != nil {
                     self.crnNumbers = dataDescription!["classes"] as! [String]
-                    
+                    crnInput = (crnNumbers?.joined(separator: ", "))!
                     updateSections()
                 } else {
                     self.crnNumbers = []
