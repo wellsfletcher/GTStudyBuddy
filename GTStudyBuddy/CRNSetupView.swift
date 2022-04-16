@@ -83,7 +83,9 @@ struct CRNSetupView: View {
             fetchSections()
             // call function to get crn numbers
             // self.fetchCRN()
-        }.navigationTitle("Setup CRNs")
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationTitle("Setup CRNs")
     }
     
     func fetchTerms() {
