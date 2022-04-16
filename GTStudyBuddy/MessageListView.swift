@@ -1,0 +1,35 @@
+//
+//  MessageListView.swift
+//  Firebase Chat
+//
+//  Created by Jai Chawla on 11/2/21.
+//
+
+import SwiftUI
+
+struct MessageListView: View {
+    var message: Message
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(message.text)
+            Text(convertTimeIntervalToDate())
+                .fontWeight(.light)
+        }
+    }
+    
+    func convertTimeIntervalToDate() -> String {
+        let date = Date(timeIntervalSince1970: message.time)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = DateFormatter.Style.medium //Set time style
+        dateFormatter.dateStyle = DateFormatter.Style.medium //Set date style
+        dateFormatter.timeZone = .current
+        let localDate = dateFormatter.string(from: date)
+        return localDate
+    }
+}
+
+struct MessageListView_Previews: PreviewProvider {
+    static var previews: some View {
+        MessageListView(message: Message(text: "Hello", time: 123456734))
+    }
+}
