@@ -80,7 +80,6 @@ struct SignUpView: View {
       .padding()
       
       //first task: create sign in functionality
-      NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
         Button(action: {
           session.signUp(name: self.fullName, email: self.email, password: self.password, confirmPassword: self.confirmPassword) { (signUpSuccessful, error) in
             if let error = error {
@@ -99,7 +98,7 @@ struct SignUpView: View {
             .cornerRadius(15)
         })
           .padding(.top, 30)
-      }
+      
       Spacer()
     }
     .navigationTitle("Join GT Study Buddy")

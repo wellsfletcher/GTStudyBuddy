@@ -124,7 +124,7 @@ struct InformationForm: View {
     
     func onLoad() {
         let db = Firestore.firestore()
-        let ref = db.collection("users").document(self.uid!)
+      let ref = db.collection("users").document(self.session.session!.uid)
         
         ref.getDocument() { (document, error) in
             if let document = document { // if there's a value in document, unwrap

@@ -25,69 +25,71 @@ struct CRNSetupView: View {
   @State var areTermsLoaded = false
   
   var body: some View {
-    VStack {
-      List {
-        NavigationLink(
-          destination: InformationForm(),
-          label: {
-            Text("Edit profile")
-          })
+    NavigationView {
+      VStack {
+        List {
+          NavigationLink(
+            destination: InformationForm(),
+            label: {
+              Text("Edit profile")
+            })
+            .padding()
+          
+          
+          Picker("Choose a term", selection: $selectedTermId) {
+            ForEach(terms) { term in
+              Text(term.name)
+            }
+          }
           .padding()
-        
-        
-        Picker("Choose a term", selection: $selectedTermId) {
-          ForEach(terms) { term in
-            Text(term.name)
-          }
+          
+          
+          TextField("Enter CRNs", text: $crnInput).padding()
+          
+          Button(
+            action: {
+              storeCRN()
+              if crnNumbers != nil && !crnNumbers!.contains(crnInput) {
+                crnNumbers?.append(crnInput)
+                updateSections()
+              }
+            },
+            label: {
+              Text("Add CRN") // change to "Update CRNs"
+            }
+          )
+            .padding()
+          
+          
+          Section(content: {
+            if (crnNumbers != nil) {
+              // List {
+              ForEach (self.sections) { section in
+                VStack(alignment: .leading) {
+                  let course = section.course
+                  Text(section.crn).font(.subheadline)
+                  Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).font(.headline)
+                  Text(course.description ?? "")
+                }.padding()
+              }
+            }
+          }, header: {
+            Text("Courses")
+          })
         }
-        .padding()
         
-        
-        TextField("Enter CRNs", text: $crnInput).padding()
-        
-        Button(
-          action: {
-            storeCRN()
-            if crnNumbers != nil && !crnNumbers!.contains(crnInput) {
-              crnNumbers?.append(crnInput)
-              updateSections()
-            }
-          },
-          label: {
-            Text("Add CRN") // change to "Update CRNs"
-          }
-        )
-        .padding()
-        
-        
-        Section(content: {
-          if (crnNumbers != nil) {
-            // List {
-            ForEach (self.sections) { section in
-              VStack(alignment: .leading) {
-                let course = section.course
-                Text(section.crn).font(.subheadline)
-                Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).font(.headline)
-                Text(course.description ?? "")
-              }.padding()
-            }
-          }
-        }, header: {
-          Text("Courses")
-        })
+        //      NavigationLink(destination: ChatsView(sections: $sections), label: {
+        //        Text("Chat now!")
+        //      })
+        //        .disabled(!areCoursesLoaded).padding()
       }
-
-//      NavigationLink(destination: ChatsView(sections: $sections), label: {
-//        Text("Chat now!")
-//      })
-//        .disabled(!areCoursesLoaded).padding()
+      .onAppear {
+        fetchTerms()
+        fetchSections()
+      }
+      .navigationBarBackButtonHidden(true)
+      .navigationTitle("Setup CRNs")
     }
-    .onAppear {
-      fetchTerms()
-      fetchSections()
-    }
-    .navigationBarBackButtonHidden(true)
-    .navigationTitle("Setup CRNs")
   }
   
   func fetchTerms() {
