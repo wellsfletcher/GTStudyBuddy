@@ -117,45 +117,7 @@ struct SignInView: View {
           }
         }
     }
-  
-  /*
-  func signUp() {
-    if password.count < 8 {
-      print("Password must be at least 8 characters.")
-      return
-    }
-    
-    if password != confirmPassword {
-      print("Passwords do not match.")
-      return
-    }
-    
-    
-    Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-      if let error = error as NSError? {
-        switch AuthErrorCode(rawValue: error.code) {
-        case .operationNotAllowed:
-          // Error: The given sign-in provider is disabled for this Firebase project. Enable it in the Firebase console, under the sign-in method tab of the Auth section.
-          print("Not allowed")
-        case .emailAlreadyInUse:
-          // Error: The email address is already in use by another account.
-          print("Email already in use")
-        case .invalidEmail:
-          // Error: The email address is badly formatted.
-          print("Invalid Emails")
-        default:
-          print("Other error")
-        }
-      } else {
-        let db = Firestore.firestore()
-        let user = authResult!.user
-        self.uid = user.uid
-        db.collection("users").document(user.uid).setData(["email": user.email], merge: true)
-      }
-    }
-  }
-  */
-  
+
 }
     
 struct SignInView_Previews: PreviewProvider {

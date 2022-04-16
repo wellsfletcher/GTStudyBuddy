@@ -30,7 +30,7 @@ struct CRNSetupView: View {
                 NavigationLink(destination: InformationForm(uid: self.uid), label: {
                     Text("Edit profile")
                 }).padding()
-              
+                
                 
                 Picker("Choose a term", selection: $selectedTermId) {
                     ForEach(terms) { term in
@@ -76,7 +76,7 @@ struct CRNSetupView: View {
             NavigationLink(destination: ChatsView(sections: $sections), label: {
                 Text("Chat now!")
             })
-                .disabled(!areCoursesLoaded).padding()
+            .disabled(!areCoursesLoaded).padding()
         }
         .onAppear {
             fetchTerms()
@@ -100,11 +100,23 @@ struct CRNSetupView: View {
     func storeCRN() {
         let db = Firestore.firestore()
         let ref = db.collection("users").document(self.uid!)
-        
         // Atomically add a new region to the "regions" array field.
         ref.updateData([
-            "classes": FieldValue.arrayUnion([crnInput])
+            selectedTermId: FieldValue.arrayUnion([crnInput])
         ])
+        
+        let courseSections = db.collection("courseSections").document(selectedTermId)
+        courseSections.getDocument() { (document, error) in
+            if let document = document, document.exists {
+                courseSections.updateData([
+                    crnInput: FieldValue.arrayUnion([uid])
+                ])
+            } else {
+                db.collection("courseSections").document(selectedTermId).setData([
+                    crnInput: FieldValue.arrayUnion([uid]),
+                ])
+            }
+        }
     }
     
     func fetchCRN() {
@@ -113,8 +125,8 @@ struct CRNSetupView: View {
         ref.getDocument() { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data()
-                if dataDescription!["classes"] != nil {
-                    self.crnNumbers = dataDescription!["classes"] as! [String]
+                if dataDescription![selectedTermId] != nil {
+                    self.crnNumbers = dataDescription![selectedTermId] as! [String]
                     
                     updateSections()
                 } else {
