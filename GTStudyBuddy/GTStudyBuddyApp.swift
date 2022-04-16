@@ -10,13 +10,27 @@ import Firebase
 
 @main
 struct GTStudyBuddyApp: App {
-    init() {
-        FirebaseApp.configure()
-    }
-    
-    var body: some Scene {
-        WindowGroup {
-            SignInView()
+  init() {
+    FirebaseApp.configure()
+  }
+  
+  @StateObject var session = SessionStore()
+  @State var hasLoaded = false
+  
+  var body: some Scene {
+    WindowGroup {
+      if !hasLoaded {
+        LogoView(hasLoaded: self.$hasLoaded)
+          .environmentObject(session)
+      } else {
+        if session.session != nil {
+          CRNSetupView()
+            .environmentObject(session)
+        } else {
+          SignInView()
+            .environmentObject(session)
         }
+      }
     }
+  }
 }

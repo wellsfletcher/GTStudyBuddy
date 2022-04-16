@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 
 struct InformationForm: View {
+  @EnvironmentObject var session: SessionStore
     @State var fullname: String = ""
     @State var crnString: String = ""
     @State var terms: [Term] = [Term(id: "202202"), Term(id: "202108")]
@@ -19,9 +20,6 @@ struct InformationForm: View {
     @State var studentOrganization = ""
     @State var loaded = false
     @State var pickerAccessed = false
-
-    var uid: String?
-
     
     var body: some View {
         ZStack {
@@ -99,7 +97,7 @@ struct InformationForm: View {
     
     func submitForm() {
         let db = Firestore.firestore()
-        let ref = db.collection("users").document(self.uid!)
+      let ref = db.collection("users").document(self.session.session!.uid)
         
         // Atomically add a new region to the "regions" array field.
         ref.setData(["fullname": fullname, "startingTerm": selectedTermId, "CRNs": csv2list(crnString), "phoneNumber": phoneNumber, "studentOrganizations": csv2list(studentOrganization)], merge: true)
@@ -170,6 +168,6 @@ struct InformationForm: View {
 
 struct InformationForm_Previews: PreviewProvider {
     static var previews: some View {
-        InformationForm(uid: "kKg6nsMOf8bA3U1y5HqytgMR8xn2")
+        InformationForm()
     }
 }

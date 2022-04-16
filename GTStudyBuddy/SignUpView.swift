@@ -10,123 +10,109 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct SignUpView: View {
+  @EnvironmentObject var session: SessionStore
+  
+  @State var fullName = ""
   @State var email = ""
   @State var password = ""
   @State var confirmPassword = ""
   @State private var showPass: Bool = false
   @State var successLogin: Bool = false
-  @State var uid: String?
-
+  @State var showingAlert = false
+  @State var errorMessage = ""
+  
   var body: some View {
-      VStack {
-        VStack(alignment: .leading) {
-          TextField("Email:", text: self.$email)
+    VStack {
+      VStack(alignment: .leading) {
+        TextField("Your Full Name:", text: self.$fullName)
+          .padding()
+          .overlay(RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color(.systemGray3), lineWidth: 1)
+                    .foregroundColor(.clear))
+          .padding(.bottom, 30)
+        
+        TextField("Email:", text: self.$email)
+          .padding()
+          .overlay(RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color(.systemGray3), lineWidth: 1)
+                    .foregroundColor(.clear))
+          .padding(.bottom, 30)
+        
+        // Use a securefield for sensitive info
+        // replaces text with dots and other secure features
+        HStack {
+          if !showPass {
+            VStack {
+              SecureField("Password:", text: self.$password)
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color(.systemGray3), lineWidth: 1)
-                                    .foregroundColor(.clear))
-                .padding(.bottom, 30)
-          
-          // Use a securefield for sensitive info
-          // replaces text with dots and other secure features
-            HStack {
-                if !showPass {
-                    VStack {
-                      SecureField("Password:", text: self.$password)
-                            .padding()
-                            .overlay(RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color(.systemGray3), lineWidth: 1)
-                                                .foregroundColor(.clear))
-                      
-                      SecureField("Confirm Password:", text: self.$confirmPassword)
-                            .padding()
-                            .overlay(RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color(.systemGray3), lineWidth: 1)
-                                                .foregroundColor(.clear))
-                    }
-                } else {
-                    VStack {
-                      TextField("Password:", text: self.$password)
-                            .padding()
-                            .overlay(RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color(.systemGray3), lineWidth: 1)
-                                                .foregroundColor(.clear))
-                      
-                      TextField("Confirm Password:", text: self.$confirmPassword)
-                            .padding()
-                            .overlay(RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color(.systemGray3), lineWidth: 1)
-                                                .foregroundColor(.clear))
-                    }
-                }
-                Button(action: {
-                                showPass.toggle()
-                            }, label: {
-                                Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
-                            })
-        }
-        }
-        .padding()
-          
-        //first task: create sign in functionality
-          NavigationLink(destination: CRNSetupView(uid: self.uid), isActive: $successLogin) {
-              Button(action: {
-              signUp()
-            }, label: {
-              Text("Sign Up")
-                .foregroundColor(.white)
-                .frame(width: 100, height: 50)
-                .background(.blue)
-                .cornerRadius(15)
-            })
-            .padding(.top, 30)
+                          .stroke(Color(.systemGray3), lineWidth: 1)
+                          .foregroundColor(.clear))
+              
+              SecureField("Confirm Password:", text: self.$confirmPassword)
+                .padding()
+                .overlay(RoundedRectangle(cornerRadius: 12)
+                          .stroke(Color(.systemGray3), lineWidth: 1)
+                          .foregroundColor(.clear))
+            }
+          } else {
+            VStack {
+              TextField("Password:", text: self.$password)
+                .padding()
+                .overlay(RoundedRectangle(cornerRadius: 12)
+                          .stroke(Color(.systemGray3), lineWidth: 1)
+                          .foregroundColor(.clear))
+              
+              TextField("Confirm Password:", text: self.$confirmPassword)
+                .padding()
+                .overlay(RoundedRectangle(cornerRadius: 12)
+                          .stroke(Color(.systemGray3), lineWidth: 1)
+                          .foregroundColor(.clear))
+            }
           }
-        Spacer()
-      }.navigationTitle("Join GT Study Buddy").padding()
-    }
-  
-  func signUp() {
-    if password.count < 8 {
-      print("Password must be at least 8 characters.")
-      return
-    }
-    
-    if password != confirmPassword {
-      print("Passwords do not match.")
-      return
-    }
-    
-    
-    Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-      if let error = error as NSError? {
-        switch AuthErrorCode(rawValue: error.code) {
-        case .operationNotAllowed:
-          // Error: The given sign-in provider is disabled for this Firebase project. Enable it in the Firebase console, under the sign-in method tab of the Auth section.
-          print("Not allowed")
-        case .emailAlreadyInUse:
-          // Error: The email address is already in use by another account.
-          print("Email already in use")
-        case .invalidEmail:
-          // Error: The email address is badly formatted.
-          print("Invalid Emails")
-        default:
-          print("Other error")
+          Button(action: {
+            showPass.toggle()
+          }, label: {
+            Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
+          })
         }
-      } else {
-        let db = Firestore.firestore()
-        let user = authResult!.user
-        self.uid = user.uid
-        db.collection("users").document(user.uid).setData(["email": user.email], merge: true)
-        successLogin = true
       }
+      .padding()
+      
+      //first task: create sign in functionality
+      NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
+        Button(action: {
+          session.signUp(name: self.fullName, email: self.email, password: self.password, confirmPassword: self.confirmPassword) { (signUpSuccessful, error) in
+            if let error = error {
+              self.errorMessage = error
+              self.showingAlert = true
+            }
+            if signUpSuccessful {
+              self.successLogin = true
+            }
+          }
+        }, label: {
+          Text("Sign Up")
+            .foregroundColor(.white)
+            .frame(width: 100, height: 50)
+            .background(.blue)
+            .cornerRadius(15)
+        })
+          .padding(.top, 30)
+      }
+      Spacer()
+    }
+    .navigationTitle("Join GT Study Buddy")
+    .padding()
+    .alert(isPresented: self.$showingAlert) {
+      Alert(title: Text("Error"), message: Text(self.errorMessage), dismissButton: .default(Text("Try Again")))
     }
   }
-  
-  
 }
 
 struct SignUpView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignUpView()
-    }
+  static var previews: some View {
+    SignUpView()
+      .environmentObject(SessionStore())
+  }
 }
