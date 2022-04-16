@@ -9,57 +9,85 @@ import SwiftUI
 import FirebaseFirestore
 
 struct CRNSetupView: View {
-  @State var crnInput: String = ""
+  @EnvironmentObject var session: SessionStore
+  
+  @State var crnInput: String = "32615" // 26340, 32615, 28845
   @State var sections: [CourseSection] = []
   
   @State var terms: [Term] = [Term(id: "202202"), Term(id: "202108")]
   
   @State var selectedTermId: String = "202202"
-  var uid: String?
   
   @State var crnNumbers: [String]?
+  @State var crn2section: [String: CourseSection] = [:]
+  
+  @State var areCoursesLoaded = false
+  @State var areTermsLoaded = false
   
   var body: some View {
     VStack {
-      //        Picker("Choose a term", selection: $selectedTermId) {
-      //            ForEach(terms) { term in
-      //                Text(term.id)
-      //            }
-      //        }
-      //        .padding()
-      
-      
-      TextField("Enter CRNs", text: $crnInput).padding()
-      
-      
-      //        List {
-      //            ForEach (self.sections) { section in
-      //                let course = section.course
-      //                Text(course.id)
-      //            }
-      //        }
-      
-      Button(action: {
-        //            fetchTerms()
-        //            fetchSections()
-        storeCRN()
-        crnNumbers?.append(crnInput)
-      }, label: {
-        Text("Add CRN")
-      }).padding()
-      
-      if (crnNumbers != nil) {
-        List {
-          ForEach(crnNumbers!, id: \.self) { crnNumber in
-            Text(crnNumber)
+      List {
+        NavigationLink(
+          destination: InformationForm(),
+          label: {
+            Text("Edit profile")
+          })
+          .padding()
+        
+        
+        Picker("Choose a term", selection: $selectedTermId) {
+          ForEach(terms) { term in
+            Text(term.name)
           }
         }
+        .padding()
+        
+        
+        TextField("Enter CRNs", text: $crnInput).padding()
+        
+        Button(
+          action: {
+            storeCRN()
+            if crnNumbers != nil && !crnNumbers!.contains(crnInput) {
+              crnNumbers?.append(crnInput)
+              updateSections()
+            }
+          },
+          label: {
+            Text("Add CRN") // change to "Update CRNs"
+          }
+        )
+        .padding()
+        
+        
+        Section(content: {
+          if (crnNumbers != nil) {
+            // List {
+            ForEach (self.sections) { section in
+              VStack(alignment: .leading) {
+                let course = section.course
+                Text(section.crn).font(.subheadline)
+                Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).font(.headline)
+                Text(course.description ?? "")
+              }.padding()
+            }
+          }
+        }, header: {
+          Text("Courses")
+        })
       }
+
+//      NavigationLink(destination: ChatsView(sections: $sections), label: {
+//        Text("Chat now!")
+//      })
+//        .disabled(!areCoursesLoaded).padding()
     }
     .onAppear {
-      // call function to get crn numbers
-      self.fetchCRN()
+      fetchTerms()
+      fetchSections()
     }
+    .navigationBarBackButtonHidden(true)
+    .navigationTitle("Setup CRNs")
   }
   
   func fetchTerms() {
@@ -69,19 +97,13 @@ struct CRNSetupView: View {
      }*/
     CourseDownloader.downloadTerms(completion: { terms in
       self.terms = terms
-    })
-  }
-  
-  func fetchSections() {
-    CourseDownloader.downloadSections(termId: selectedTermId, completion: { crn2section in
-      // self.crn2section = crn2section
-      // self.sections = sections
+      areTermsLoaded = true
     })
   }
   
   func storeCRN() {
     let db = Firestore.firestore()
-    let ref = db.collection("users").document(self.uid!)
+    let ref = db.collection("users").document(self.session.session!.uid)
     
     // Atomically add a new region to the "regions" array field.
     ref.updateData([
@@ -91,12 +113,14 @@ struct CRNSetupView: View {
   
   func fetchCRN() {
     let db = Firestore.firestore()
-    let ref = db.collection("users").document(self.uid!)
+    let ref = db.collection("users").document(self.session.session!.uid)
     ref.getDocument() { (document, error) in
       if let document = document, document.exists {
         let dataDescription = document.data()
         if dataDescription!["classes"] != nil {
           self.crnNumbers = dataDescription!["classes"] as! [String]
+          
+          updateSections()
         } else {
           self.crnNumbers = []
         }
@@ -108,6 +132,41 @@ struct CRNSetupView: View {
     }
   }
   
+  func fetchSections() {
+    CourseDownloader.downloadSections(termId: selectedTermId, completion: { crn2section in
+      self.crn2section = crn2section
+      areCoursesLoaded = true
+      
+      fetchCRN()
+      // updateSections()
+    })
+  }
+  
+  func updateSections() {
+    // self.crnNumbers! += csv2list(crnInput)
+    self.sections = crns2sections(self.crnNumbers!)
+  }
+  
+  func crns2sections(_ crns: [String]) -> [CourseSection] {
+    var sections: [CourseSection] = []
+    
+    for crn in crns {
+      if let section = crn2section[crn] {
+        sections.append(section)
+      }
+    }
+    
+    return sections
+  }
+  
+  
+  func csv2list(_ csv: String) -> Array<String> {
+    return csv
+      .components(separatedBy: ",")
+      .compactMap {
+        $0.trimmingCharacters(in: .whitespaces)
+      }
+  }
 }
 
 struct CRNSetupView_Previews: PreviewProvider {
