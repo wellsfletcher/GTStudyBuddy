@@ -123,11 +123,26 @@ struct CRNSetupView: View {
     func storeCRN() {
         let db = Firestore.firestore()
         let ref = db.collection("users").document(self.session.session!.uid)
-        
         // Atomically add a new region to the "regions" array field.
         ref.updateData([
-            "classes": crnNumbers
+            selectedTermId: crnNumbers // FieldValue.arrayUnion([crnInput])
         ])
+        
+        /*
+        // this part's not ready to be merged yet with Allen's updates
+        let courseSections = db.collection("courseSections").document(selectedTermId)
+        courseSections.getDocument() { (document, error) in
+            if let document = document, document.exists {
+                courseSections.updateData([
+                    crnInput: FieldValue.arrayUnion([uid])
+                ])
+            } else {
+                db.collection("courseSections").document(selectedTermId).setData([
+                    crnInput: FieldValue.arrayUnion([uid]),
+                ])
+            }
+        }
+        */
     }
     
     func fetchCRN() {
@@ -136,8 +151,8 @@ struct CRNSetupView: View {
         ref.getDocument() { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data()
-                if dataDescription!["classes"] != nil {
-                    self.crnNumbers = dataDescription!["classes"] as! [String]
+                if dataDescription![selectedTermId] != nil {
+                    self.crnNumbers = dataDescription![selectedTermId] as! [String]
                     crnInput = (crnNumbers?.joined(separator: ", "))!
                     updateSections()
                 } else {
