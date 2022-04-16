@@ -94,10 +94,10 @@ struct CRNSetupView: View {
                     })
                 }
                 
-                //      NavigationLink(destination: ChatsView(sections: $sections), label: {
-                //        Text("Chat now!")
-                //      })
-                //        .disabled(!areCoursesLoaded).padding()
+                      NavigationLink(destination: ChatsView(sections: $sections), label: {
+                        Text("Chat now!")
+                      })
+                        .disabled(!areCoursesLoaded).padding()
             }
             .onAppear {
                 fetchTerms()
