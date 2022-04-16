@@ -10,6 +10,8 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct SignInView: View {
+  @EnvironmentObject var session: SessionStore
+  
   @State var showPass: Bool = false
   @State var signUp: Bool = false
 
@@ -17,8 +19,9 @@ struct SignInView: View {
   @State var password = "password"
   @State var confirmPassword = ""
   @State var successLogin: Bool = false
-  @State var uid: String?
   @State var showInformationForm: Bool = false
+  @State var showingAlert = false
+  @State var errorMessage = ""
   
   var body: some View {
     NavigationView {
@@ -59,7 +62,15 @@ struct SignInView: View {
             .padding()
         
         Button(action: {
-          logIn()
+          session.signIn(email: self.email, password: self.password) { (signInSuccessful, error) in
+            if let error = error {
+              self.errorMessage = error
+              self.showingAlert = true
+            }
+            if signInSuccessful {
+              self.successLogin = true
+            }
+          }
         }, label: {
           Text("Log In")
             .foregroundColor(.white)
@@ -68,10 +79,7 @@ struct SignInView: View {
             .cornerRadius(15)
         }).padding()
         // .padding()
-        NavigationLink(destination: CRNSetupView(uid: self.uid), isActive: $successLogin) {
-          EmptyView()
-        }
-        NavigationLink(destination: InformationForm(uid: self.uid), isActive: $showInformationForm){
+        NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
           EmptyView()
         }
         
@@ -89,77 +97,20 @@ struct SignInView: View {
           } // .padding()
         Spacer()
         
-      }.navigationTitle("Enter GT Study Buddy").padding()
-    }
-    
-  }
-  
-  func logIn() {
-    Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-      if error == nil {
-        self.uid = authResult!.user.uid
-        successLogin = true
-        print("successfully logged in")
-      } else {
-        print(error?.localizedDescription as Any)
-        
       }
-    }
-  }
-
-    func fillform() {
-        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-          if error == nil {
-            self.uid = authResult!.user.uid
-            showInformationForm = true
-          } else {
-            print(error?.localizedDescription as Any)
-          }
-        }
-    }
-  
-  /*
-  func signUp() {
-    if password.count < 8 {
-      print("Password must be at least 8 characters.")
-      return
-    }
-    
-    if password != confirmPassword {
-      print("Passwords do not match.")
-      return
-    }
-    
-    
-    Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-      if let error = error as NSError? {
-        switch AuthErrorCode(rawValue: error.code) {
-        case .operationNotAllowed:
-          // Error: The given sign-in provider is disabled for this Firebase project. Enable it in the Firebase console, under the sign-in method tab of the Auth section.
-          print("Not allowed")
-        case .emailAlreadyInUse:
-          // Error: The email address is already in use by another account.
-          print("Email already in use")
-        case .invalidEmail:
-          // Error: The email address is badly formatted.
-          print("Invalid Emails")
-        default:
-          print("Other error")
-        }
-      } else {
-        let db = Firestore.firestore()
-        let user = authResult!.user
-        self.uid = user.uid
-        db.collection("users").document(user.uid).setData(["email": user.email], merge: true)
+      .navigationTitle("Enter GT Study Buddy")
+      .alert(isPresented: self.$showingAlert) {
+        Alert(title: Text("Error"), message: Text(self.errorMessage), dismissButton: .default(Text("Try Again")))
       }
+      .padding()
     }
+    
   }
-  */
-  
 }
     
 struct SignInView_Previews: PreviewProvider {
   static var previews: some View {
     SignInView()
+      .environmentObject(SessionStore())
   }
 }

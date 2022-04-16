@@ -3,28 +3,29 @@ import Firebase
 import Combine
 
 class SessionStore: ObservableObject {
-    @Published var session: User?
-    var handle: AuthStateDidChangeListenerHandle?
-
-    func listen () {
-        // monitor authentication changes using firebase
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            if let user = user {
-                // if we have a user, create a new user model
-                print("Got user: \(user)")
-                self.session = User(
-                    uid: user.uid,
-                    email: user.email,
-                    displayName: user.displayName
-                )
-            } else {
-                // if we don't have a user, set our session to nil
-                self.session = nil
-            }
-        }
+  @Published var session: User?
+  var handle: AuthStateDidChangeListenerHandle?
+  
+  func listen(completion: @escaping (() -> Void?)) {
+    // monitor authentication changes using firebase
+    handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+      if let user = user {
+        // if we have a user, create a new user model
+        print("Got user: \(user)")
+        self.session = User(
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName
+        )
+        completion()
+      } else {
+        // if we don't have a user, set our session to nil
+        self.session = nil
+        completion()
+      }
     }
-
-    // additional methods (sign up, sign in) will go here
+  }
+  
   
   func signUp(name: String, email: String, password: String, confirmPassword: String, completion: @escaping ((Bool, String?) -> Void)) {
     if password.count < 8 {
@@ -63,17 +64,33 @@ class SessionStore: ObservableObject {
       }
     }
   }
-
+  
+  func signIn(email: String, password: String, completion: @escaping ((Bool, String?) -> Void)) {
+    Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+      if error == nil {
+        completion(true, nil)
+      } else {
+        completion(false, error!.localizedDescription as String)
+      }
+    }
+  }
+  
+  func unbind () {
+    if let handle = handle {
+      Auth.auth().removeStateDidChangeListener(handle)
+    }
+  }
+  
 }
 
 class User {
-    var uid: String
-    var email: String?
-    var displayName: String?
-
-    init(uid: String, email: String? = nil, displayName: String? = nil) {
-        self.uid = uid
-        self.email = email
-        self.displayName = displayName
-    }
+  var uid: String
+  var email: String?
+  var displayName: String?
+  
+  init(uid: String, email: String? = nil, displayName: String? = nil) {
+    self.uid = uid
+    self.email = email
+    self.displayName = displayName
+  }
 }

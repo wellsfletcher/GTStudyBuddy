@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct SignUpView: View {
-  @ObservedObject var session = SessionStore()
+  @EnvironmentObject var session: SessionStore
   
   @State var fullName = ""
   @State var email = ""
@@ -18,7 +18,6 @@ struct SignUpView: View {
   @State var confirmPassword = ""
   @State private var showPass: Bool = false
   @State var successLogin: Bool = false
-  @State var uid: String?
   @State var showingAlert = false
   @State var errorMessage = ""
   
@@ -81,7 +80,7 @@ struct SignUpView: View {
       .padding()
       
       //first task: create sign in functionality
-      NavigationLink(destination: CRNSetupView(uid: self.uid), isActive: $successLogin) {
+      NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
         Button(action: {
           session.signUp(name: self.fullName, email: self.email, password: self.password, confirmPassword: self.confirmPassword) { (signUpSuccessful, error) in
             if let error = error {
@@ -114,6 +113,6 @@ struct SignUpView: View {
 struct SignUpView_Previews: PreviewProvider {
   static var previews: some View {
     SignUpView()
-//      .environmentObject(SessionStore())
+      .environmentObject(SessionStore())
   }
 }
