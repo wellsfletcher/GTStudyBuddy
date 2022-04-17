@@ -6,7 +6,7 @@ class SessionStore: ObservableObject {
   @Published var session: User?
   var handle: AuthStateDidChangeListenerHandle?
   
-  func listen(completion: @escaping (() -> Void?)) {
+  func listen(completion: @escaping (() -> Void)) {
     // monitor authentication changes using firebase
     handle = Auth.auth().addStateDidChangeListener { (auth, user) in
       if let user = user {
@@ -78,6 +78,15 @@ class SessionStore: ObservableObject {
   func unbind () {
     if let handle = handle {
       Auth.auth().removeStateDidChangeListener(handle)
+    }
+  }
+  
+  func signOut() {
+    do {
+      try Auth.auth().signOut()
+      self.session = nil
+    } catch let signOutError as NSError {
+      print("Error signing out: \(signOutError.localizedDescription)")
     }
   }
   
