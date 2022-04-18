@@ -12,9 +12,11 @@ struct MessageListView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(message.text)
+                .padding(10)
+                .foregroundColor(true ? Color.white : Color.black)
+                .background(true ? Color.blue : Color(UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)))
+                .cornerRadius(10)
             Text(convertTimeIntervalToDate()).font(.subheadline).fontWeight(.light)
-            Text("From " + message.sender.uid).font(.subheadline).fontWeight(.light)
-            Text("To " + message.receiver.uid).font(.subheadline).fontWeight(.light)
         }
     }
     
