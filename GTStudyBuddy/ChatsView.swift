@@ -18,7 +18,7 @@ struct ChatsView: View {
                 NavigationLink(destination: ChatView(chat: chat), label: {
                     VStack(alignment: .leading) {
                         Text(chat.user.uid)
-                        Text(chat.tagline)
+                        Text(chat.tagline).fontWeight(.light).font(.subheadline)
                     }
                 }).padding()
             }
