@@ -30,6 +30,9 @@ struct LogoView: View {
 
       }
       .onAppear {
+#if DEBUG
+        LaunchBehaviour.when(.ensureSignIn, session.signOut)
+#endif
         session.listen() {
           self.hasLoaded = true
         }

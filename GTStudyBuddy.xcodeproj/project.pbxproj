@@ -11,6 +11,7 @@
 		851CDC2927F403E400562705 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851CDC2827F403E400562705 /* SignUpView.swift */; };
 		85858F3C280B566800FC3265 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85858F3B280B566800FC3265 /* SessionStore.swift */; };
 		85858F3E280B688800FC3265 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85858F3D280B688800FC3265 /* LogoView.swift */; };
+		85858F41280CC26200FC3265 /* LaunchBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85858F40280CC26200FC3265 /* LaunchBehavior.swift */; };
 		AA45687D27D8067D004DFD8E /* GTStudyBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45687C27D8067D004DFD8E /* GTStudyBuddyApp.swift */; };
 		AA45687F27D8067D004DFD8E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45687E27D8067D004DFD8E /* ContentView.swift */; };
 		AA45688127D8067F004DFD8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA45688027D8067F004DFD8E /* Assets.xcassets */; };
@@ -59,6 +60,7 @@
 		851CDC2827F403E400562705 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		85858F3B280B566800FC3265 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		85858F3D280B688800FC3265 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
+		85858F40280CC26200FC3265 /* LaunchBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchBehavior.swift; sourceTree = "<group>"; };
 		AA45687927D8067D004DFD8E /* GTStudyBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GTStudyBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA45687C27D8067D004DFD8E /* GTStudyBuddyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTStudyBuddyApp.swift; sourceTree = "<group>"; };
 		AA45687E27D8067D004DFD8E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -113,6 +115,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		85858F3F280CC25200FC3265 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				85858F40280CC26200FC3265 /* LaunchBehavior.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		AA45687027D8067D004DFD8E = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				AA54C24D280CF5B800A732DA /* Extensions */,
+				85858F3F280CC25200FC3265 /* Helpers */,
 				AA805470280B5F6000DF8259 /* MessageListView.swift */,
 				AA995C0627E0474900BCACE2 /* CourseDownloader.swift */,
 				AA995BFF27E045F800BCACE2 /* Models */,
@@ -363,6 +374,7 @@
 				AA45687F27D8067D004DFD8E /* ContentView.swift in Sources */,
 				AA995C0527E046D200BCACE2 /* Term.swift in Sources */,
 				851CDC2927F403E400562705 /* SignUpView.swift in Sources */,
+				85858F41280CC26200FC3265 /* LaunchBehavior.swift in Sources */,
 				85858F3C280B566800FC3265 /* SessionStore.swift in Sources */,
 				AA995C0427E046D200BCACE2 /* CourseSection.swift in Sources */,
 				AA805471280B5F6100DF8259 /* MessageListView.swift in Sources */,
