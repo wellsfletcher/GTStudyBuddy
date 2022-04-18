@@ -20,6 +20,7 @@
 		AA45689827D80680004DFD8E /* GTStudyBuddyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45689727D80680004DFD8E /* GTStudyBuddyUITests.swift */; };
 		AA45689A27D80680004DFD8E /* GTStudyBuddyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45689927D80680004DFD8E /* GTStudyBuddyUITestsLaunchTests.swift */; };
 		AA54C24F280CF5C500A732DA /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA54C24E280CF5C500A732DA /* Array.swift */; };
+		AA54C251280D3A4B00A732DA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA54C250280D3A4B00A732DA /* User.swift */; };
 		AA80546F280B5F5700DF8259 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA80546E280B5F5600DF8259 /* Message.swift */; };
 		AA805471280B5F6100DF8259 /* MessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA805470280B5F6000DF8259 /* MessageListView.swift */; };
 		AA805474280B607D00DF8259 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = AA805473280B607D00DF8259 /* FirebaseDatabase */; };
@@ -72,6 +73,7 @@
 		AA45689727D80680004DFD8E /* GTStudyBuddyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTStudyBuddyUITests.swift; sourceTree = "<group>"; };
 		AA45689927D80680004DFD8E /* GTStudyBuddyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTStudyBuddyUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AA54C24E280CF5C500A732DA /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		AA54C250280D3A4B00A732DA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AA80546E280B5F5600DF8259 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		AA805470280B5F6000DF8259 /* MessageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListView.swift; sourceTree = "<group>"; };
 		AA995BF727E041ED00BCACE2 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -149,7 +151,6 @@
 			children = (
 				AA54C24D280CF5B800A732DA /* Extensions */,
 				85858F3F280CC25200FC3265 /* Helpers */,
-				AA805470280B5F6000DF8259 /* MessageListView.swift */,
 				AA995C0627E0474900BCACE2 /* CourseDownloader.swift */,
 				AA995BFF27E045F800BCACE2 /* Models */,
 				AA995BFD27E0426600BCACE2 /* GoogleService-Info.plist */,
@@ -165,6 +166,7 @@
 				247F84B827F429B6005930A4 /* InformationForm.swift */,
 				AAF1F28527F98CB100CB3910 /* ChatsView.swift */,
 				AAF1F28727F98CBB00CB3910 /* ChatView.swift */,
+				AA805470280B5F6000DF8259 /* MessageListView.swift */,
 				85858F3B280B566800FC3265 /* SessionStore.swift */,
 			);
 			path = GTStudyBuddy;
@@ -218,6 +220,7 @@
 				AA995C0127E046D200BCACE2 /* CourseSection.swift */,
 				AA995C0227E046D200BCACE2 /* Term.swift */,
 				AAF1F28327F98C7600CB3910 /* Chat.swift */,
+				AA54C250280D3A4B00A732DA /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				AA80546F280B5F5700DF8259 /* Message.swift in Sources */,
 				AA995C0927E04FA100BCACE2 /* CRNSetupView.swift in Sources */,
 				AA45687D27D8067D004DFD8E /* GTStudyBuddyApp.swift in Sources */,
+				AA54C251280D3A4B00A732DA /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
