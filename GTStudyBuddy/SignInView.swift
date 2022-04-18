@@ -19,6 +19,8 @@ struct SignInView: View {
   @State var successLogin: Bool = false
   @State var uid: String?
   @State var showInformationForm: Bool = false
+  @State var showingAlert: Bool = false
+  @State var errorMessage: String = ""
   
   var body: some View {
     NavigationView {
@@ -66,7 +68,9 @@ struct SignInView: View {
             .frame(width: 100, height: 50)
             .background(.blue)
             .cornerRadius(15)
-        }).padding()
+        }).padding().alert(isPresented: $showingAlert) {
+            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+        }
         // .padding()
         NavigationLink(destination: CRNSetupView(uid: self.uid), isActive: $successLogin) {
           EmptyView()
@@ -102,7 +106,8 @@ struct SignInView: View {
         print("successfully logged in")
       } else {
         print(error?.localizedDescription as Any)
-        
+          showingAlert = true
+          errorMessage = error!.localizedDescription
       }
     }
   }
@@ -114,9 +119,12 @@ struct SignInView: View {
             showInformationForm = true
           } else {
             print(error?.localizedDescription as Any)
+              showingAlert = true
+              errorMessage = error!.localizedDescription
           }
         }
     }
+        
   
   /*
   func signUp() {

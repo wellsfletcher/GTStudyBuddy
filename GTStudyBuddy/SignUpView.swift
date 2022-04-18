@@ -16,6 +16,8 @@ struct SignUpView: View {
   @State private var showPass: Bool = false
   @State var successLogin: Bool = false
   @State var uid: String?
+  @State var showingAlert: Bool = false
+  @State var errorMessage: String = ""
 
   var body: some View {
       VStack {
@@ -79,7 +81,9 @@ struct SignUpView: View {
                 .background(.blue)
                 .cornerRadius(15)
             })
-            .padding(.top, 30)
+            .padding(.top, 30).alert(isPresented: $showingAlert) {
+                Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+            }
           }
         Spacer()
       }.navigationTitle("Join GT Study Buddy").padding()
@@ -88,11 +92,15 @@ struct SignUpView: View {
   func signUp() {
     if password.count < 8 {
       print("Password must be at least 8 characters.")
+      showingAlert = true
+      errorMessage = "Password must be at least 8 characters."
       return
     }
     
     if password != confirmPassword {
       print("Passwords do not match.")
+      showingAlert = true
+      errorMessage = "Passwords do not match."
       return
     }
     
@@ -103,14 +111,22 @@ struct SignUpView: View {
         case .operationNotAllowed:
           // Error: The given sign-in provider is disabled for this Firebase project. Enable it in the Firebase console, under the sign-in method tab of the Auth section.
           print("Not allowed")
+          errorMessage = "Not allowed"
+          showingAlert = true
         case .emailAlreadyInUse:
           // Error: The email address is already in use by another account.
           print("Email already in use")
+          errorMessage = "Email already in use"
+          showingAlert = true
         case .invalidEmail:
           // Error: The email address is badly formatted.
           print("Invalid Emails")
+          errorMessage = "Invalid Emails"
+          showingAlert = true
         default:
           print("Other error")
+          errorMessage = "Other error"
+          showingAlert = true
         }
       } else {
         let db = Firestore.firestore()
