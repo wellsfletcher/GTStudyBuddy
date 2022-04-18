@@ -19,16 +19,18 @@ struct GTStudyBuddyApp: App {
   
   var body: some Scene {
     WindowGroup {
-      if !hasLoaded {
-        LogoView(hasLoaded: self.$hasLoaded)
-          .environmentObject(session)
-      } else {
-        if session.session != nil {
-          CRNSetupView()
+      Group {
+        if !hasLoaded {
+          LogoView(hasLoaded: self.$hasLoaded)
             .environmentObject(session)
         } else {
-          SignInView()
-            .environmentObject(session)
+          if session.session != nil {
+            CRNSetupView()
+              .environmentObject(session)
+          } else {
+            SignInView()
+              .environmentObject(session)
+          }
         }
       }
     }
