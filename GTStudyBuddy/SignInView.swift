@@ -79,9 +79,6 @@ struct SignInView: View {
             .cornerRadius(15)
         }).padding()
         // .padding()
-        NavigationLink(destination: CRNSetupView(), isActive: $successLogin) {
-          EmptyView()
-        }
         
           NavigationLink(destination: SignUpView(), isActive: $signUp) {
               Button(action: {

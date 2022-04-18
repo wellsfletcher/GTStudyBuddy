@@ -33,4 +33,14 @@ class GTStudyBuddyTests: XCTestCase {
         }
     }
 
+    func testArraySubtract() throws {
+        // both have Ringo and Paul
+        let names1 = ["John", "Paul", "Ringo"]
+        let names2 = ["George", "Paul", "Ringo"]// ["Ringo", "Paul", "George"]
+        var difference = names1.subtract(from: names2) // should return John
+        XCTAssertEqual(difference, ["John"]) // these are basically the that were both added and removed combineed together
+        
+        difference = names2.subtract(from: names1) // should return George
+        XCTAssertEqual(difference, ["George"])
+    }
 }

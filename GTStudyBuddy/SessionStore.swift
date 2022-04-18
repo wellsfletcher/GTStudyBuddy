@@ -6,7 +6,7 @@ class SessionStore: ObservableObject {
   @Published var session: User?
   var handle: AuthStateDidChangeListenerHandle?
   
-  func listen(completion: @escaping (() -> Void?)) {
+  func listen(completion: @escaping (() -> Void)) {
     // monitor authentication changes using firebase
     handle = Auth.auth().addStateDidChangeListener { (auth, user) in
       if let user = user {
@@ -81,9 +81,18 @@ class SessionStore: ObservableObject {
     }
   }
   
+  func signOut() {
+    do {
+      try Auth.auth().signOut()
+      self.session = nil
+    } catch let signOutError as NSError {
+      print("Error signing out: \(signOutError.localizedDescription)")
+    }
+  }
+  
 }
 
-class User {
+class User: Identifiable, Hashable {
   var uid: String
   var email: String?
   var displayName: String?
@@ -93,4 +102,16 @@ class User {
     self.email = email
     self.displayName = displayName
   }
+    
+  var id: String {
+    return uid
+  }
+    
+    static func ==(lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
