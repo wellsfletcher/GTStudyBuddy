@@ -54,7 +54,7 @@ struct CRNSetupView: View {
                         action: {
                             crnNumbers = crnInput.components(separatedBy: ", ")
                             for eachCRN in crnNumbers! {
-                                if eachCRN.count != 5 {
+                              if eachCRN.count != 5 || !eachCRN.isInt || !crn2section.keys.contains(eachCRN) {
                                     crnInvalid = true
                                 }
                             }
@@ -69,7 +69,7 @@ struct CRNSetupView: View {
                         .alert(isPresented: $crnInvalid) {
                             Alert(
                                 title: Text("CRN format incorrect"),
-                                message: Text("Please add your valid CRNs separated by a comma and space"),
+                                message: Text("Please ensure the CRNs are valid and add your CRNs separated by a comma and space."),
                                 dismissButton: .default(Text("Ok"))
                             )
                         }
@@ -169,6 +169,7 @@ struct CRNSetupView: View {
     func fetchSections() {
         CourseDownloader.downloadSections(termId: selectedTermId, completion: { crn2section in
             self.crn2section = crn2section
+          print(crn2section)
             areCoursesLoaded = true
             
             fetchCRN()
