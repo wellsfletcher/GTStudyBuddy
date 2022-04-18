@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatsView: View {
     @Binding var sections: [CourseSection]
+    @Binding var studybuddy2mutualsections: [User: [CourseSection]]
     @State var chats: [Chat] = [Chat(name: "Jai Chawla"), Chat(name: "Allen Su")]
     
     var body: some View {

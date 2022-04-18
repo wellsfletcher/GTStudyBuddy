@@ -15,4 +15,8 @@ struct CourseSection: Identifiable, Codable {
     var id: String {
         return crn
     }
+    
+    static func createInvalid(crn: String) -> CourseSection {
+        return CourseSection(crn: crn, sectionLabel: "Invalid", course: Course.invalid)
+    }
 }

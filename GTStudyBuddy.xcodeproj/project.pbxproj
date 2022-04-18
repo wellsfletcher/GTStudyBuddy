@@ -19,6 +19,7 @@
 		AA45688E27D80680004DFD8E /* GTStudyBuddyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45688D27D80680004DFD8E /* GTStudyBuddyTests.swift */; };
 		AA45689827D80680004DFD8E /* GTStudyBuddyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45689727D80680004DFD8E /* GTStudyBuddyUITests.swift */; };
 		AA45689A27D80680004DFD8E /* GTStudyBuddyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45689927D80680004DFD8E /* GTStudyBuddyUITestsLaunchTests.swift */; };
+		AA54C24F280CF5C500A732DA /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA54C24E280CF5C500A732DA /* Array.swift */; };
 		AA80546F280B5F5700DF8259 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA80546E280B5F5600DF8259 /* Message.swift */; };
 		AA805471280B5F6100DF8259 /* MessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA805470280B5F6000DF8259 /* MessageListView.swift */; };
 		AA805474280B607D00DF8259 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = AA805473280B607D00DF8259 /* FirebaseDatabase */; };
@@ -70,6 +71,7 @@
 		AA45689327D80680004DFD8E /* GTStudyBuddyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GTStudyBuddyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA45689727D80680004DFD8E /* GTStudyBuddyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTStudyBuddyUITests.swift; sourceTree = "<group>"; };
 		AA45689927D80680004DFD8E /* GTStudyBuddyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTStudyBuddyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AA54C24E280CF5C500A732DA /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		AA80546E280B5F5600DF8259 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		AA805470280B5F6000DF8259 /* MessageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListView.swift; sourceTree = "<group>"; };
 		AA995BF727E041ED00BCACE2 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		AA45687B27D8067D004DFD8E /* GTStudyBuddy */ = {
 			isa = PBXGroup;
 			children = (
+				AA54C24D280CF5B800A732DA /* Extensions */,
 				85858F3F280CC25200FC3265 /* Helpers */,
 				AA805470280B5F6000DF8259 /* MessageListView.swift */,
 				AA995C0627E0474900BCACE2 /* CourseDownloader.swift */,
@@ -190,6 +193,14 @@
 				AA45689927D80680004DFD8E /* GTStudyBuddyUITestsLaunchTests.swift */,
 			);
 			path = GTStudyBuddyUITests;
+			sourceTree = "<group>";
+		};
+		AA54C24D280CF5B800A732DA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AA54C24E280CF5C500A732DA /* Array.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		AA805472280B607D00DF8259 /* Frameworks */ = {
@@ -359,6 +370,7 @@
 				AA995BFC27E0423100BCACE2 /* SetUpUserView.swift in Sources */,
 				AA995C0327E046D200BCACE2 /* Course.swift in Sources */,
 				247F84B927F429B6005930A4 /* InformationForm.swift in Sources */,
+				AA54C24F280CF5C500A732DA /* Array.swift in Sources */,
 				AA45687F27D8067D004DFD8E /* ContentView.swift in Sources */,
 				AA995C0527E046D200BCACE2 /* Term.swift in Sources */,
 				851CDC2927F403E400562705 /* SignUpView.swift in Sources */,

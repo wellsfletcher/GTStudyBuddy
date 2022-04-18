@@ -92,7 +92,7 @@ class SessionStore: ObservableObject {
   
 }
 
-class User {
+class User: Identifiable, Hashable {
   var uid: String
   var email: String?
   var displayName: String?
@@ -102,4 +102,16 @@ class User {
     self.email = email
     self.displayName = displayName
   }
+    
+  var id: String {
+    return uid
+  }
+    
+    static func ==(lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
+    }
 }
