@@ -9,5 +9,15 @@ import Foundation
 
 struct Chat: Identifiable {
     var id = UUID()
-    var name: String
+    var user: User
+    
+    var mutualSections: [CourseSection] = []
+    
+    var name: String {
+        return user.uid
+    }
+    
+    var tagline: String {
+        return mutualSections.map{$0.course.id}.joined(separator: ", ")
+    }
 }
