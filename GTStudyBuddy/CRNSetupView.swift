@@ -274,11 +274,6 @@ struct CRNSetupView: View {
         })
         // for each of the current users's courseSections
         // fetch all the users in that courseSection
-        // add them to a big list
-        // count the number of occurrences of each user in that big list
-        // (but also somehow keep track of )
-        
-        // let courseSections = crns2sections(crns)
     }
     
     /**
@@ -319,31 +314,6 @@ struct CRNSetupView: View {
     
     func createChats(completion: @escaping ([String]) -> Void = {_ in }) {
         
-    }
-    
-    func oldStoreCRN() {
-        let db = Firestore.firestore()
-        let ref = db.collection("users").document(self.session.session!.uid)
-        // Atomically add a new region to the "regions" array field.
-        ref.updateData([
-            selectedTermId: crnNumbers // FieldValue.arrayUnion([crnInput])
-        ])
-        
-        /*
-        // this part's not ready to be merged yet with Allen's updates
-        let courseSections = db.collection("courseSections").document(selectedTermId)
-        courseSections.getDocument() { (document, error) in
-            if let document = document, document.exists {
-                courseSections.updateData([
-                    crnInput: FieldValue.arrayUnion([uid])
-                ])
-            } else {
-                db.collection("courseSections").document(selectedTermId).setData([
-                    crnInput: FieldValue.arrayUnion([uid]),
-                ])
-            }
-        }
-        */
     }
     
     func fetchCRN() { // completion: @escaping ([String]) -> Void = {_ in }

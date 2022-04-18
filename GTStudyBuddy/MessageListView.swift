@@ -12,8 +12,9 @@ struct MessageListView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(message.text)
-            Text(convertTimeIntervalToDate())
-                .fontWeight(.light)
+            Text(convertTimeIntervalToDate()).font(.subheadline).fontWeight(.light)
+            Text("From " + message.sender.uid).font(.subheadline).fontWeight(.light)
+            Text("To " + message.receiver.uid).font(.subheadline).fontWeight(.light)
         }
     }
     
@@ -30,6 +31,6 @@ struct MessageListView: View {
 
 struct MessageListView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageListView(message: Message(text: "Hello", time: 123456734))
+        MessageListView(message: Message(text: "Hello", time: 123456734, sender: User(uid: "69"), receiver: User(uid: "420")))
     }
 }
