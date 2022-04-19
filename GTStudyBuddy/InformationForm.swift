@@ -102,13 +102,7 @@ struct InformationForm: View {
         
         // Atomically add a new region to the "regions" array field.
         ref.setData(["fullname": fullname, "startingTerm": selectedTermId, "CRNs": csv2list(crnString), "phoneNumber": phoneNumber, "studentOrganizations": csv2list(studentOrganization)], merge: true)
-        let user = Auth.auth().currentUser!
-        let changeRequest = user.createProfileChangeRequest()
-        changeRequest.displayName = fullname
-        changeRequest.commitChanges { error in
-          // ...
-        }
-      self.session.session!.displayName = fullname
+        self.session.session!.displayName = fullname
         loaded = false
     }
     
