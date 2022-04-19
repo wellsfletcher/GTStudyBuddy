@@ -17,6 +17,7 @@ struct MessageListView: View {
                 .background(true ? Color.blue : Color(UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)))
                 .cornerRadius(10)
             Text(convertTimeIntervalToDate()).font(.subheadline).fontWeight(.light)
+          Text("From: " + (message.sender.displayName ?? "Anonymous")).font(.subheadline).fontWeight(.light)
         }
     }
     
@@ -33,6 +34,6 @@ struct MessageListView: View {
 
 struct MessageListView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageListView(message: Message(text: "Hello", time: 123456734, sender: User(uid: "69"), receiver: User(uid: "420")))
+        MessageListView(message: Message(text: "Hello", time: 123456734, sender: User(uid: "69", displayName: "John"), receiver: User(uid: "420", displayName: "Joe")))
     }
 }

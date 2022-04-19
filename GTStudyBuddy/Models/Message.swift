@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 import FirebaseDatabase
 
 struct Message: Identifiable {
@@ -58,7 +59,9 @@ struct Message: Identifiable {
                let time = data["time"] as? TimeInterval,
                let senderUID = data["sender"] as? String
             {
-                let messageSender = User(uid: senderUID)
+              let user = Auth.auth().currentUser!
+              let displayName = user.displayName!
+                let messageSender = User(uid: senderUID, displayName: displayName)
                 let messageReceiver = User(uid: getReceiverFromChatId(chatId: chatId, sender: messageSender))
                 let message = Message(text: text, time: time, sender: messageSender, receiver: messageReceiver)
                 handler(message)
