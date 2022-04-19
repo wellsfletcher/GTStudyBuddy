@@ -14,9 +14,9 @@ class SessionStore: ObservableObject {
         print("Got user: \(user)")
         self.session = User(
           uid: user.uid,
-          email: user.email,
-          displayName: user.displayName
+          email: user.email
         )
+        self.getUserName()
         completion()
       } else {
         // if we don't have a user, set our session to nil
@@ -54,12 +54,7 @@ class SessionStore: ObservableObject {
       } else {
         let db = Firestore.firestore()
         let user = authResult!.user
-        let changeRequest = user.createProfileChangeRequest()
-        changeRequest.displayName = name
-        changeRequest.commitChanges { error in
-          // ...
-        }
-        db.collection("users").document(user.uid).setData(["email": user.email!], merge: true)
+        db.collection("users").document(user.uid).setData(["email": email, "fullname": name], merge: true)
         completion(true, nil)
       }
     }
@@ -90,6 +85,21 @@ class SessionStore: ObservableObject {
     }
   }
   
+  func getUserName() {
+    guard let user = self.session else { return }
+    let db = Firestore.firestore()
+    let docRef = db.collection("users").document(user.uid)
+    docRef.getDocument() { (document, error) in
+      if let document = document, document.exists {
+        let data = document.data()
+        let name = data?["fullname"]
+        if let fullname = name {
+          self.session!.displayName = fullname as? String
+        }
+      }
+    }
+  }
+  
 }
 
 class User: Identifiable, Hashable {
@@ -102,16 +112,16 @@ class User: Identifiable, Hashable {
     self.email = email
     self.displayName = displayName
   }
-    
+  
   var id: String {
     return uid
   }
-    
-    static func ==(lhs: User, rhs: User) -> Bool {
-        return lhs.id == rhs.id
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
+  
+  static func ==(lhs: User, rhs: User) -> Bool {
+    return lhs.id == rhs.id
+  }
+  
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
 }

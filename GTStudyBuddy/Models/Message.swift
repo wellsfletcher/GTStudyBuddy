@@ -66,6 +66,7 @@ struct Message: Identifiable {
                     displayName = "Anonymous"
                 }
                 let messageSender = User(uid: senderUID, displayName: displayName) // this incorrect
+                let messageSender = User(uid: senderUID, displayName: displayName) // this incorrect
                 let messageReceiver = User(uid: getReceiverFromChatId(chatId: chatId, sender: messageSender))
                 let message = Message(text: text, time: time, sender: messageSender, receiver: messageReceiver)
                 handler(message)
