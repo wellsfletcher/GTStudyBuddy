@@ -340,7 +340,6 @@ struct CRNSetupView: View {
     func fetchSections() {
         CourseDownloader.downloadSections(termId: selectedTermId, completion: { crn2section in
             self.crn2section = crn2section
-          print(crn2section)
             areCoursesLoaded = true
             
             fetchCRN()
