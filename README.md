@@ -1,5 +1,7 @@
 # GTStudyBuddy
 
+GT Study Buddy is an iOS app that enables you to connect with other students who are in the same classes as you. This app is designed for Georgia Tech students. GT iOS Club members are developing this app as of Spring 2022.
+
 ## Become a contributor
 To become a contributor, drop your GitHub username and email into the iOS Club discord or email wellsfletcher@gatech.edu.
 
