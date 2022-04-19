@@ -262,7 +262,7 @@ struct CRNSetupView: View {
                             continue
                         }
                         // add the user to the map to effectively count the number of occurrences of that user
-                        let classmate = User(uid: uid)
+                        let classmate = User(uid: uid) // if you make it fetch the display name of the user here then everything will work
                         var mutualSections = studybuddy2mutualsections[classmate, default: []]
                         mutualSections.append(courseSection)
                         studybuddy2mutualsections[classmate] = mutualSections

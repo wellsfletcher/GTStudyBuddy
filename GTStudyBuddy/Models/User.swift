@@ -6,3 +6,5 @@
 //
 
 import Foundation
+
+// I forgot to move the User class from SessionStore.swift here lol
