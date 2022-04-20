@@ -28,7 +28,8 @@ struct ChatView: View {
             
             List {
                 ForEach(messages.reversed()) { message in
-                    MessageListView(message: message, isSender: session.session?.uid == sender.uid)
+                    // MessageListView(message: message, isSender: session.session?.uid == sender.uid)
+                    MessageListView(message: message, isSender: sender.uid == message.sender.uid)
                         .listRowSeparator(.hidden)
                 }
             }
