@@ -68,9 +68,9 @@ struct Message: Identifiable {
                 var receiverDisplayName = DEFAULT_NAME
                 if currentUser.uid != senderUID {
                     senderDisplayName = otherUser.displayName ?? DEFAULT_NAME
-                    receiverDisplayName = currentUser.displayName!
+                    receiverDisplayName = currentUser.displayName ?? DEFAULT_NAME
                 } else {
-                    senderDisplayName = currentUser.displayName!
+                    senderDisplayName = currentUser.displayName ?? DEFAULT_NAME
                     receiverDisplayName = otherUser.displayName ?? DEFAULT_NAME
                 }
                 let messageSender = User(uid: senderUID, displayName: senderDisplayName) // this incorrect

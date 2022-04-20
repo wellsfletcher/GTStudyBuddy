@@ -43,4 +43,52 @@ class GTStudyBuddyTests: XCTestCase {
         difference = names2.subtract(from: names1) // should return George
         XCTAssertEqual(difference, ["George"])
     }
+    
+    func testGetChatId1() throws {
+        let sender = User(uid: "Apple")
+        let receiver = User(uid: "Balloon")
+        let actual: String = Message.getChatId(sender: sender, receiver: receiver)
+        let expected: String = "Apple,Balloon"
+        XCTAssertEqual(actual, expected)
+    }
+    
+    func testGetChatId2() throws {
+        let sender = User(uid: "Balloon")
+        let receiver = User(uid: "Apple")
+        let actual: String = Message.getChatId(sender: sender, receiver: receiver)
+        let expected: String = "Apple,Balloon"
+        XCTAssertEqual(actual, expected)
+    }
+    
+    func testGetChatId3() throws {
+        let sender = User(uid: "aaaaa")
+        let receiver = User(uid: "Aaaaa")
+        let actual: String = Message.getChatId(sender: sender, receiver: receiver)
+        let expected: String = "Aaaaa,aaaaa"
+        XCTAssertEqual(actual, expected)
+    }
+    
+    func testGetChatId4() throws {
+        let sender = User(uid: "Aaaaa")
+        let receiver = User(uid: "aaaaa")
+        let actual: String = Message.getChatId(sender: sender, receiver: receiver)
+        let expected: String = "Aaaaa,aaaaa"
+        XCTAssertEqual(actual, expected)
+    }
+    
+    func testGetChatId5() throws {
+        let sender = User(uid: "5apple")
+        let receiver = User(uid: "3balloon")
+        let actual: String = Message.getChatId(sender: sender, receiver: receiver)
+        let expected: String = "3balloon,5apple"
+        XCTAssertEqual(actual, expected)
+    }
+    
+    func testGetChatId6() throws {
+        let sender = User(uid: "3balloon")
+        let receiver = User(uid: "5apple")
+        let actual: String = Message.getChatId(sender: sender, receiver: receiver)
+        let expected: String = "3balloon,5apple"
+        XCTAssertEqual(actual, expected)
+    }
 }

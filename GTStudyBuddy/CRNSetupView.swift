@@ -259,7 +259,11 @@ struct CRNSetupView: View {
                     let classmates = classrooms[crn]!
                     for uid in classmates {
                         // ignore current user
-                        if uid == session.session!.uid {
+                        print("printing userinfo")
+                        print(uid)
+                        print(session.session!.uid)
+                        print((uid, session.session!.uid))
+                        if uid == session.session!.uid { // this isn't getting executed
                             print("skipping current user")
                             continue
                         }
