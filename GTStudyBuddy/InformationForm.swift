@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct InformationForm: View {
-  @EnvironmentObject var session: SessionStore
+    @EnvironmentObject var session: SessionStore
     @State var fullname: String = ""
     @State var crnString: String = ""
     @State var terms: [Term] = [Term(id: "202202"), Term(id: "202108")]
@@ -38,7 +38,7 @@ struct InformationForm: View {
                         }
                     }.onAppear{pickerAccessed = true}.onDisappear{pickerAccessed=false}
                 }
-            
+                
                 
                 Section("Phone number") {
                     TextField("Enter phone number", text: $phoneNumber)
@@ -72,14 +72,14 @@ struct InformationForm: View {
                     
                 }).ignoresSafeArea(.keyboard).padding()
             }
-                
+            
         }
-         
+        
         .onAppear{
             print(loaded)
             fetchTerms()
             print(terms)
-        
+            
             if !loaded {
                 onLoad()
             }
@@ -98,7 +98,7 @@ struct InformationForm: View {
     
     func submitForm() {
         let db = Firestore.firestore()
-      let ref = db.collection("users").document(self.session.session!.uid)
+        let ref = db.collection("users").document(self.session.session!.uid)
         
         // Atomically add a new region to the "regions" array field.
         ref.setData(["fullname": fullname, "startingTerm": selectedTermId, "CRNs": csv2list(crnString), "phoneNumber": phoneNumber, "studentOrganizations": csv2list(studentOrganization)], merge: true)
@@ -126,17 +126,17 @@ struct InformationForm: View {
     
     func onLoad() {
         let db = Firestore.firestore()
-      let ref = db.collection("users").document(self.session.session!.uid)
+        let ref = db.collection("users").document(self.session.session!.uid)
         
         ref.getDocument() { (document, error) in
             if let document = document { // if there's a value in document, unwrap
                 let data = document.data()
                 let fetchedTerm = data!["startingTerm"] as? String ?? ""
                 
-              fullname = self.session.session!.displayName ?? "No full name"
+                fullname = self.session.session!.displayName ?? "No full name"
                 selectedTermId = fetchedTerm
                 
-            
+                
                 //crnString = data!["CRNs"] as? String ?? "No CRN String"
                 phoneNumber = data!["phoneNumber"] as?  String ?? "no phone number"
                 print("Full name: \(fullname)")
@@ -150,7 +150,7 @@ struct InformationForm: View {
                         studOrgsFetched += org + ", "
                     } else {
                         studOrgsFetched += org
-
+                        
                     }
                     count+=1
                 }
@@ -159,11 +159,11 @@ struct InformationForm: View {
                 
                 
                 
-              } else {
+            } else {
                 print("Document does not exist in cache")
-              }
+            }
         }
-
+        
         
     }
 }

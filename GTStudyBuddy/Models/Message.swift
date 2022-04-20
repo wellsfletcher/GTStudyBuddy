@@ -59,8 +59,22 @@ struct Message: Identifiable {
                let time = data["time"] as? TimeInterval,
                let senderUID = data["sender"] as? String
             {
-                let messageSender = User(uid: senderUID, displayName: sender.displayName)
-                let messageReceiver = User(uid: getReceiverFromChatId(chatId: chatId, sender: messageSender))
+                // let messageSender = User(uid: senderUID, displayName: sender.displayName)
+                let otherUser = receiver
+                let currentUser = Auth.auth().currentUser! // this should also just be the sender
+                // let displayName = user.displayName!
+                let DEFAULT_NAME = "No name provided"
+                var senderDisplayName = DEFAULT_NAME
+                var receiverDisplayName = DEFAULT_NAME
+                if currentUser.uid != senderUID {
+                    senderDisplayName = otherUser.displayName ?? DEFAULT_NAME
+                    receiverDisplayName = currentUser.displayName!
+                } else {
+                    senderDisplayName = currentUser.displayName!
+                    receiverDisplayName = otherUser.displayName ?? DEFAULT_NAME
+                }
+                let messageSender = User(uid: senderUID, displayName: senderDisplayName) // this incorrect
+                let messageReceiver = User(uid: getReceiverFromChatId(chatId: chatId, sender: messageSender), displayName: receiverDisplayName)
                 let message = Message(text: text, time: time, sender: messageSender, receiver: messageReceiver)
                 handler(message)
             }
