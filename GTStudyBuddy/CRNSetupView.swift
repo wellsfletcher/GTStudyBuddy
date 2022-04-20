@@ -106,10 +106,12 @@ struct CRNSetupView: View {
                 NavigationLink(destination: ChatsView(sections: $sections, studybuddy2mutualsections: $studybuddy2mutualsections), isActive: $buddiesFound) {
                     Button(action: {
                     
+                        findingBuddies = true
                         findStudyBuddies(completion: { studybuddy2mutualsections in
                             print("your study buddies are: ")
                             print(studybuddy2mutualsections)
                             self.studybuddy2mutualsections = studybuddy2mutualsections
+                            findingBuddies = false
                             buddiesFound = true
                         })
                         
@@ -258,18 +260,27 @@ struct CRNSetupView: View {
                     for uid in classmates {
                         // ignore current user
                         if uid == session.session!.uid {
-                            // print("skipping current user")
+                            print("skipping current user")
                             continue
                         }
                         // add the user to the map to effectively count the number of occurrences of that user
                         let classmate = User(uid: uid) // if you make it fetch the display name of the user here then everything will work
+                        /*
+                        classmate.fetchInfo(completion: { fetchedUser in
+                            print("successfully fetched user")
+                        })
+                         */
+                        
                         var mutualSections = studybuddy2mutualsections[classmate, default: []]
                         mutualSections.append(courseSection)
                         studybuddy2mutualsections[classmate] = mutualSections
                     }
                 }
                 
-                completion(studybuddy2mutualsections)
+                SessionStore.updateUserInfo(studybuddy2mutualsections, completion: { studybuddy2mutualsections in
+                    completion(studybuddy2mutualsections)
+                    print("successfully fetched all user info")
+                })
             })
         })
         // for each of the current users's courseSections

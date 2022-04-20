@@ -14,7 +14,7 @@ struct Chat: Identifiable {
     var mutualSections: [CourseSection] = []
     
     var name: String {
-        return user.displayName ?? "Anonymous"
+        return user.displayName ?? "No name provided"
     }
     
     var tagline: String {

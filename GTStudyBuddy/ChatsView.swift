@@ -17,8 +17,7 @@ struct ChatsView: View {
             ForEach (self.chats) { chat in
                 NavigationLink(destination: ChatView(chat: chat), label: {
                     VStack(alignment: .leading) {
-                      // Text(chat.user.displayName ?? "Anonymous")
-                        Text(chat.user.uid)
+                        Text(chat.user.displayName ?? "No name provided")
                         Text(chat.tagline)
                     }
                 }).padding()
@@ -26,6 +25,13 @@ struct ChatsView: View {
         }.navigationTitle("Study Buddies")
         .onAppear {
             updateChats()
+            /*
+            SessionStore.updateUserInfo(studybuddy2mutualsections, completion: { studybuddy2mutualsections in
+                // self.studybuddy2mutualsections = studybuddy2mutualsections
+                updateChats()
+                print("successfully fetched all user info")
+            })
+             */
         }
     }
     

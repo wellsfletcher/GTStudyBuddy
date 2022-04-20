@@ -17,7 +17,7 @@ struct MessageListView: View {
                 .background(true ? Color.blue : Color(UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)))
                 .cornerRadius(10)
             Text(convertTimeIntervalToDate()).font(.subheadline).fontWeight(.light)
-          Text("From: " + (message.sender.displayName ?? "Anonymous")).font(.subheadline).fontWeight(.light)
+          Text("From: " + (message.sender.displayName ?? "No name provided")).font(.subheadline).fontWeight(.light)
         }
     }
     
