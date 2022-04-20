@@ -68,7 +68,7 @@ struct CRNSetupView: View {
                             }
                         },
                         label: {
-                            Text("Update CRNs") // change to "Update CRNs"
+                            Text("Update CRNs").foregroundColor(.blue)
                         })
                         .alert(isPresented: $crnInvalid) {
                             Alert(
@@ -86,8 +86,8 @@ struct CRNSetupView: View {
                             ForEach (self.sections) { section in
                                 VStack(alignment: .leading) {
                                     let course = section.course
-                                    Text(section.crn).font(.subheadline).fontWeight(.light)
-                                    Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).font(.headline)
+                                    Text(section.crn).font(.subheadline).foregroundColor(Color(.systemGray))
+                                    Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).bold()
                                     Text(course.description ?? "")
                                 }.padding()
                             }

@@ -37,19 +37,20 @@ struct ChatView: View {
             .padding([.leading, .trailing], 16)
 
             HStack {
-                TextField("Message", text: self.$text)
+                TextField("Start typing...", text: self.$text)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(minHeight: CGFloat(30))
                 Button(action: {
                     self.send()
                 }, label: {
-                    Text("Send")
-                })
+                    // Text("Send")
+                    Image(systemName: "arrowtriangle.right.fill").padding(.leading)
+                }).disabled(self.text.isEmpty)
             }
             .frame(minHeight: CGFloat(50)).padding()
                 .padding([.leading, .trailing], 16)
         }
-        .navigationTitle(chat.name)
+        .navigationTitle(chat.name).navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 fetchMessages()
             }

@@ -25,6 +25,7 @@ struct SignUpView: View {
     VStack {
       VStack(alignment: .leading) {
         TextField("Your Full Name:", text: self.$fullName)
+              .disableAutocorrection(true)
           .padding()
           .overlay(RoundedRectangle(cornerRadius: 12)
                     .stroke(Color(.systemGray3), lineWidth: 1)
@@ -32,6 +33,8 @@ struct SignUpView: View {
           .padding(.bottom, 30)
         
         TextField("Email:", text: self.$email)
+              .disableAutocorrection(true)
+              .textInputAutocapitalization(.never)
           .padding()
           .overlay(RoundedRectangle(cornerRadius: 12)
                     .stroke(Color(.systemGray3), lineWidth: 1)
@@ -40,42 +43,25 @@ struct SignUpView: View {
         
         // Use a securefield for sensitive info
         // replaces text with dots and other secure features
-        HStack {
-          if !showPass {
             VStack {
-              SecureField("Password:", text: self.$password)
+              SecureInputView("Password:", text: self.$password)
+                    .disableAutocorrection(true)
+                    .textInputAutocapitalization(.never)
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 12)
                           .stroke(Color(.systemGray3), lineWidth: 1)
                           .foregroundColor(.clear))
               
-              SecureField("Confirm Password:", text: self.$confirmPassword)
+              SecureInputView("Confirm Password:", text: self.$confirmPassword)
+                    .disableAutocorrection(true)
+                    .textInputAutocapitalization(.never)
                 .padding()
                 .overlay(RoundedRectangle(cornerRadius: 12)
                           .stroke(Color(.systemGray3), lineWidth: 1)
                           .foregroundColor(.clear))
             }
-          } else {
-            VStack {
-              TextField("Password:", text: self.$password)
-                .padding()
-                .overlay(RoundedRectangle(cornerRadius: 12)
-                          .stroke(Color(.systemGray3), lineWidth: 1)
-                          .foregroundColor(.clear))
-              
-              TextField("Confirm Password:", text: self.$confirmPassword)
-                .padding()
-                .overlay(RoundedRectangle(cornerRadius: 12)
-                          .stroke(Color(.systemGray3), lineWidth: 1)
-                          .foregroundColor(.clear))
-            }
-          }
-          Button(action: {
-            showPass.toggle()
-          }, label: {
-            Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
-          })
-        }
+         
+         
       }
       .padding()
       
