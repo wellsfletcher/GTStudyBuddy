@@ -9,16 +9,24 @@ import SwiftUI
 
 struct MessageListView: View {
     var message: Message
+    var isSender: Bool
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(message.text)
-                .padding(10)
-                .foregroundColor(true ? Color.white : Color.black)
-                .background(true ? Color.blue : Color(UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)))
-                .cornerRadius(10)
-            Text(convertTimeIntervalToDate()).font(.subheadline).fontWeight(.light)
-          Text("From: " + (message.sender.displayName ?? "No name provided")).font(.subheadline).fontWeight(.light)
+        VStack(alignment: .center) {
+            HStack {
+                if isSender {
+                    Spacer()
+                }
+                Text(message.text)
+                    .padding(10)
+                    .foregroundColor(isSender ? Color.white : Color.black)
+                    .background(isSender ? Color.blue : Color(UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)))
+                    .cornerRadius(10)
+                if !isSender {
+                    Spacer()
+                }
+            }
         }
+        .listRowBackground(Color(UIColor.systemBackground))
     }
     
     func convertTimeIntervalToDate() -> String {
@@ -34,6 +42,6 @@ struct MessageListView: View {
 
 struct MessageListView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageListView(message: Message(text: "Hello", time: 123456734, sender: User(uid: "69", displayName: "John"), receiver: User(uid: "420", displayName: "Joe")))
+        MessageListView(message: Message(text: "Hello", time: 123456734, sender: User(uid: "69", displayName: "John"), receiver: User(uid: "420", displayName: "Joe")), isSender: true)
     }
 }
