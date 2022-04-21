@@ -8,9 +8,10 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
+//import SwiftProtobuf
 
 struct InformationForm: View {
-  @EnvironmentObject var session: SessionStore
+    @EnvironmentObject var session: SessionStore
     @State var fullname: String = ""
     @State var crnString: String = ""
     @State var terms: [Term] = [Term(id: "202202"), Term(id: "202108")]
@@ -22,12 +23,21 @@ struct InformationForm: View {
     @State var loaded = false
     @State var pickerAccessed = false
     
+    private enum FocusedFields:Hashable {
+        case fullname, phonenumber, studentOrganization
+    }
+    
+    @FocusState private var focusedField: FocusedFields?
+    
     var body: some View {
-        ZStack {
+        VStack {
             
             Form {
                 Section("Name") {
                     TextField("Enter name", text: $fullname)
+                        .textInputAutocapitalization(.words)
+                        .textContentType(.name)
+                        .focused($focusedField, equals: .fullname)
                 }
                 
                 // I think this shouldn't exist
@@ -38,19 +48,34 @@ struct InformationForm: View {
                         }
                     }.onAppear{pickerAccessed = true}.onDisappear{pickerAccessed=false}
                 }
-            
+                
                 
                 Section("Phone number") {
                     TextField("Enter phone number", text: $phoneNumber)
+                        .keyboardType(.phonePad)
+                        .textContentType(.telephoneNumber)
+                        .focused($focusedField, equals: .phonenumber)
                 }
                 
                 Section("Student organizations") {
                     TextField("Enter student organizations as a comma separated list", text: $studentOrganization)// .padding(.vertical)
+                        .focused($focusedField, equals: .studentOrganization)
                 }
+            }//end Form
+            .onTapGesture {
+                //dismissed keyboard when user taps outside a textfield
+                endEditing()
             }
+            .toolbar{
+                ToolbarItem(placement: .keyboard){
+                    Button("Done"){
+                        focusedField = nil
+                    }
+                }
+            }//end toolbar components
             
             VStack {
-                Spacer()
+                //Spacer()
                 
                 Button(action:{
                     submitForm()
@@ -71,15 +96,16 @@ struct InformationForm: View {
                         .animation(Animation.spring(response: 0.3, dampingFraction: 0.6), value: submitTapped)
                     
                 }).ignoresSafeArea(.keyboard).padding()
-            }
-                
-        }
-         
+            }//end v-stack
+            .frame(alignment: .bottom)
+
+        }//end z-stack
+        
         .onAppear{
             print(loaded)
             fetchTerms()
             print(terms)
-        
+            
             if !loaded {
                 onLoad()
             }
@@ -93,12 +119,14 @@ struct InformationForm: View {
         }
         
     }
-    
-    
+    // function that is called with the user taps outside a textfield to ultimately dismiss the keyboard
+    private func endEditing(){
+        UIApplication.shared.endEditing()
+    }
     
     func submitForm() {
         let db = Firestore.firestore()
-      let ref = db.collection("users").document(self.session.session!.uid)
+        let ref = db.collection("users").document(self.session.session!.uid)
         
         // Atomically add a new region to the "regions" array field.
         ref.setData(["fullname": fullname, "startingTerm": selectedTermId, "CRNs": csv2list(crnString), "phoneNumber": phoneNumber, "studentOrganizations": csv2list(studentOrganization)], merge: true)
@@ -106,9 +134,9 @@ struct InformationForm: View {
         let changeRequest = user.createProfileChangeRequest()
         changeRequest.displayName = fullname
         changeRequest.commitChanges { error in
-          // ...
+            // ...
         }
-      self.session.session!.displayName = fullname
+        self.session.session!.displayName = fullname
         loaded = false
     }
     
@@ -132,17 +160,17 @@ struct InformationForm: View {
     
     func onLoad() {
         let db = Firestore.firestore()
-      let ref = db.collection("users").document(self.session.session!.uid)
+        let ref = db.collection("users").document(self.session.session!.uid)
         
         ref.getDocument() { (document, error) in
             if let document = document { // if there's a value in document, unwrap
                 let data = document.data()
                 let fetchedTerm = data!["startingTerm"] as? String ?? ""
                 
-              fullname = self.session.session!.displayName ?? "No full name"
+                fullname = self.session.session!.displayName ?? "No full name"
                 selectedTermId = fetchedTerm
                 
-            
+                
                 //crnString = data!["CRNs"] as? String ?? "No CRN String"
                 phoneNumber = data!["phoneNumber"] as?  String ?? "no phone number"
                 print("Full name: \(fullname)")
@@ -156,7 +184,7 @@ struct InformationForm: View {
                         studOrgsFetched += org + ", "
                     } else {
                         studOrgsFetched += org
-
+                        
                     }
                     count+=1
                 }
@@ -165,12 +193,19 @@ struct InformationForm: View {
                 
                 
                 
-              } else {
+            } else {
                 print("Document does not exist in cache")
-              }
+            }
         }
-
         
+        
+    }
+}
+
+//UIApplication extension used with func endEditing() to dismiss the keyboard when the user taps outside the textfield
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
