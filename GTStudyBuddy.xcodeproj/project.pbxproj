@@ -172,7 +172,6 @@
 				247F84B827F429B6005930A4 /* InformationForm.swift */,
 				AAF1F28527F98CB100CB3910 /* ChatsView.swift */,
 				AAF1F28727F98CBB00CB3910 /* ChatView.swift */,
-				AA805470280B5F6000DF8259 /* MessageListView.swift */,
 				85858F3B280B566800FC3265 /* SessionStore.swift */,
 			);
 			path = GTStudyBuddy;
@@ -215,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				AA54C253280FD9B900A732DA /* SecureInputView.swift */,
+				AA805470280B5F6000DF8259 /* MessageListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
