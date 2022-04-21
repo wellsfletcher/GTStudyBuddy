@@ -29,6 +29,12 @@ struct CRNSetupView: View {
     
     @State var studybuddy2mutualsections: [User: [CourseSection]] = [:]
     
+    private enum FocusedFields:Hashable {
+        case selectedTerm, crn
+    }
+    
+    @FocusState private var focusedField: FocusedFields?
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -38,7 +44,7 @@ struct CRNSetupView: View {
                         label: {
                             Text("Edit profile")
                         })
-                        .padding()
+                    .padding()
                     
                     
                     Picker("Choose a term", selection: $selectedTermId) {
@@ -46,19 +52,23 @@ struct CRNSetupView: View {
                             Text(term.name)
                         }
                     }
+                    .focused($focusedField, equals: .selectedTerm)
                     .padding()
                     
                     
                     HStack {
                         Text("CRNs: ")
-                        TextField("Enter CRNs", text: $crnInput).padding()}
+                        TextField("Enter CRNs", text: $crnInput).padding()
+                            .focused($focusedField, equals: .crn)
+                        
+                    }
                     .padding([.leading], 15)
                     
                     Button(
                         action: {
                             crnNumbers = crnInput.components(separatedBy: ", ")
                             for eachCRN in crnNumbers! {
-                              if eachCRN.count != 5 || !eachCRN.isInt || !crn2section.keys.contains(eachCRN) {
+                                if eachCRN.count != 5 || !eachCRN.isInt || !crn2section.keys.contains(eachCRN) {
                                     crnInvalid = true
                                 }
                             }
@@ -70,14 +80,14 @@ struct CRNSetupView: View {
                         label: {
                             Text("Update CRNs") // change to "Update CRNs"
                         })
-                        .alert(isPresented: $crnInvalid) {
-                            Alert(
-                                title: Text("CRN format incorrect"),
-                                message: Text("Please ensure the CRNs are valid and add your CRNs separated by a comma and space."),
-                                dismissButton: .default(Text("Ok"))
-                            )
-                        }
-                        .padding()
+                    .alert(isPresented: $crnInvalid) {
+                        Alert(
+                            title: Text("CRN format incorrect"),
+                            message: Text("Please ensure the CRNs are valid and add your CRNs separated by a comma and space."),
+                            dismissButton: .default(Text("Ok"))
+                        )
+                    }
+                    .padding()
                     
                     
                     Section(content: {
@@ -96,16 +106,23 @@ struct CRNSetupView: View {
                         Text("Courses")
                     })
                 }
+                .toolbar{
+                    ToolbarItem(placement: .keyboard){
+                        Button("Done"){
+                            focusedField = nil
+                        }
+                    }
+                }//end toolbar components
                 
                 /*
-                NavigationLink(destination: ChatsView(sections: $sections), label: {
-                    Text("Chat now!")
-                })
-                    .disabled(!areCoursesLoaded).padding()
+                 NavigationLink(destination: ChatsView(sections: $sections), label: {
+                 Text("Chat now!")
+                 })
+                 .disabled(!areCoursesLoaded).padding()
                  */
                 NavigationLink(destination: ChatsView(sections: $sections, studybuddy2mutualsections: $studybuddy2mutualsections), isActive: $buddiesFound) {
                     Button(action: {
-                    
+                        
                         findStudyBuddies(completion: { studybuddy2mutualsections in
                             print("your study buddies are: ")
                             print(studybuddy2mutualsections)
@@ -142,21 +159,21 @@ struct CRNSetupView: View {
     func storeCRN() {
         // fetch current array of CRNs
         /*
-        let db = Firestore.firestore()
-        let ref = db.collection("users").document(self.session.session!.uid)
-        ref.getDocument() { (document, error) in
-            var CRNs: [String] = []
-            if let document = document, document.exists {
-                let dataDescription = document.data()
-                if dataDescription![selectedTermId] != nil {
-                    CRNs = dataDescription![selectedTermId] as! [String]
-                }
-            } else {
-                print("CRNs do not exist")
-            }
-            // return CRNs
-            
-        }
+         let db = Firestore.firestore()
+         let ref = db.collection("users").document(self.session.session!.uid)
+         ref.getDocument() { (document, error) in
+         var CRNs: [String] = []
+         if let document = document, document.exists {
+         let dataDescription = document.data()
+         if dataDescription![selectedTermId] != nil {
+         CRNs = dataDescription![selectedTermId] as! [String]
+         }
+         } else {
+         print("CRNs do not exist")
+         }
+         // return CRNs
+         
+         }
          */
         
         getCRNs(completion: { fetchedCRNs in
@@ -188,7 +205,7 @@ struct CRNSetupView: View {
         // submit a call to remove them from every courseSection that they removed
         // submit a call to add them to every course section that they added
         // (update the CRNs in Firebase normally)
-
+        
     }
     
     func addUserToCourseSection(_ crn: String) {

@@ -8,7 +8,6 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
-//import SwiftProtobuf
 
 struct InformationForm: View {
     @EnvironmentObject var session: SessionStore
@@ -49,7 +48,6 @@ struct InformationForm: View {
                     }.onAppear{pickerAccessed = true}.onDisappear{pickerAccessed=false}
                 }
                 
-                
                 Section("Phone number") {
                     TextField("Enter phone number", text: $phoneNumber)
                         .keyboardType(.phonePad)
@@ -62,10 +60,6 @@ struct InformationForm: View {
                         .focused($focusedField, equals: .studentOrganization)
                 }
             }//end Form
-            .onTapGesture {
-                //dismissed keyboard when user taps outside a textfield
-                endEditing()
-            }
             .toolbar{
                 ToolbarItem(placement: .keyboard){
                     Button("Done"){
@@ -97,9 +91,8 @@ struct InformationForm: View {
                     
                 }).ignoresSafeArea(.keyboard).padding()
             }//end v-stack
-            .frame(alignment: .bottom)
-
-        }//end z-stack
+            
+        }//end V-stack
         
         .onAppear{
             print(loaded)
@@ -117,12 +110,16 @@ struct InformationForm: View {
                 loaded = false
             }
         }
-        
+        .onTapGesture {
+            //dismissed keyboard when user taps outside a textfield
+            UIApplication.shared.endEditing()
+        }
     }
+    
     // function that is called with the user taps outside a textfield to ultimately dismiss the keyboard
-    private func endEditing(){
-        UIApplication.shared.endEditing()
-    }
+    //    private func endEditing(){
+    //        UIApplication.shared.endEditing()
+    //    }
     
     func submitForm() {
         let db = Firestore.firestore()
@@ -199,13 +196,6 @@ struct InformationForm: View {
         }
         
         
-    }
-}
-
-//UIApplication extension used with func endEditing() to dismiss the keyboard when the user taps outside the textfield
-extension UIApplication {
-    func endEditing() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

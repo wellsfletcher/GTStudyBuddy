@@ -44,7 +44,12 @@ struct ChatView: View {
         .onAppear {
             fetchMessages()
         }
+        .onTapGesture {
+            //dismissed keyboard when user taps outside a textfield
+            UIApplication.shared.endEditing()
+        }
     }
+    
     
     func send() {
         let time = Date().timeIntervalSince1970

@@ -16,7 +16,7 @@ struct SetUpUserView: View {
         
         VStack {
             TextField("Enter Course CRN", text: $crn)
-
+            
             
             Spacer()
             Text("Courses: " + getCourseString())
@@ -28,13 +28,17 @@ struct SetUpUserView: View {
             } label: {
                 Text("Add Course")
             }
-
+            
+        }
+        .onTapGesture {
+            //dismissed keyboard when user taps outside a textfield
+            UIApplication.shared.endEditing()
         }
     }
     
     func getCourseString() -> String {
         var courseString = ""
-
+        
         for course in courses {
             courseString = "\(courseString), \(course)"
         }
