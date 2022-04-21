@@ -15,8 +15,8 @@ struct SignInView: View {
     @State var showPass: Bool = false
     @State var signUp: Bool = false
     
-    @State var email = "gwells9@gatech.edu"
-    @State var password = "password"
+    @State var email = ""
+    @State var password = ""
     @State var confirmPassword = ""
     @State var successLogin: Bool = false
     @State var showInformationForm: Bool = false
