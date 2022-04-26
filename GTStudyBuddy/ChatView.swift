@@ -50,11 +50,16 @@ struct ChatView: View {
             .frame(minHeight: CGFloat(50)).padding()
                 .padding([.leading, .trailing], 16)
         }
+        .onTapGesture {
+            //dismissed keyboard when user taps outside a textfield
+            UIApplication.shared.endEditing()
+        }
         .navigationTitle(chat.name).navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 fetchMessages()
             }
     }
+    
     
     func send() {
         let time = Date().timeIntervalSince1970

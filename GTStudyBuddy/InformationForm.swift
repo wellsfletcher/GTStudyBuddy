@@ -22,12 +22,21 @@ struct InformationForm: View {
     @State var loaded = false
     @State var pickerAccessed = false
     
+    private enum FocusedFields:Hashable {
+        case fullname, phonenumber, studentOrganization
+    }
+    
+    @FocusState private var focusedField: FocusedFields?
+    
     var body: some View {
-        ZStack {
+        VStack {
             
             Form {
                 Section("Name") {
                     TextField("Enter name", text: $fullname)
+                        .textInputAutocapitalization(.words)
+                        .textContentType(.name)
+                        .focused($focusedField, equals: .fullname)
                 }
                 
                 // I think this shouldn't exist
@@ -38,19 +47,29 @@ struct InformationForm: View {
                         }
                     }.onAppear{pickerAccessed = true}.onDisappear{pickerAccessed=false}
                 }
-                
-                
+
                 Section("Phone number") {
                     TextField("Enter phone number", text: $phoneNumber)
+                        .keyboardType(.phonePad)
+                        .textContentType(.telephoneNumber)
+                        .focused($focusedField, equals: .phonenumber)
                 }
                 
                 Section("Student organizations") {
                     TextField("Enter student organizations as a comma separated list", text: $studentOrganization)// .padding(.vertical)
+                        .focused($focusedField, equals: .studentOrganization)
                 }
-            }
+            }//end Form
+            .toolbar{
+                ToolbarItem(placement: .keyboard){
+                    Button("Done"){
+                        focusedField = nil
+                    }
+                }
+            }//end toolbar components
             
             VStack {
-                Spacer()
+                //Spacer()
                 
                 Button(action:{
                     submitForm()
@@ -71,10 +90,11 @@ struct InformationForm: View {
                         .animation(Animation.spring(response: 0.3, dampingFraction: 0.6), value: submitTapped)
                     
                 }).ignoresSafeArea(.keyboard).padding()
-            }
+            }//end v-stack
             
+        }//end V-stack
+            }
         }
-        
         .onAppear{
             print(loaded)
             fetchTerms()
@@ -91,10 +111,16 @@ struct InformationForm: View {
                 loaded = false
             }
         }
-        
+        .onTapGesture {
+            //dismissed keyboard when user taps outside a textfield
+            UIApplication.shared.endEditing()
+        }
     }
     
-    
+    // function that is called with the user taps outside a textfield to ultimately dismiss the keyboard
+    //    private func endEditing(){
+    //        UIApplication.shared.endEditing()
+    //    }
     
     func submitForm() {
         let db = Firestore.firestore()
@@ -102,6 +128,12 @@ struct InformationForm: View {
         
         // Atomically add a new region to the "regions" array field.
         ref.setData(["fullname": fullname, "startingTerm": selectedTermId, "CRNs": csv2list(crnString), "phoneNumber": phoneNumber, "studentOrganizations": csv2list(studentOrganization)], merge: true)
+        let user = Auth.auth().currentUser!
+        let changeRequest = user.createProfileChangeRequest()
+        changeRequest.displayName = fullname
+        changeRequest.commitChanges { error in
+            // ...
+        }
         self.session.session!.displayName = fullname
         loaded = false
     }

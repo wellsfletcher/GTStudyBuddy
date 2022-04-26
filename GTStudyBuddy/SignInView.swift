@@ -14,7 +14,7 @@ struct SignInView: View {
     
     @State var showPass: Bool = false
     @State var signUp: Bool = false
-    
+   
     @State var email = ""
     @State var password = ""
     @State var confirmPassword = ""
@@ -29,6 +29,34 @@ struct SignInView: View {
                 
                 VStack(alignment: .leading) {
                     TextField("Email:", text: self.$email)
+                        .padding()
+                        .overlay(RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color(.systemGray3), lineWidth: 1)
+                            .foregroundColor(.clear))
+                    
+                    // Use a securefield for sensitive info
+                    // replaces text with dots and other secure features
+                    HStack {
+                        if !showPass {
+                            SecureField("Password:", text: self.$password)
+                                .padding()
+                                .overlay(RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color(.systemGray3), lineWidth: 1)
+                                    .foregroundColor(.clear))
+                        } else {
+                            TextField("Password:", text: self.$password)
+                                .padding()
+                                .overlay(RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color(.systemGray3), lineWidth: 1)
+                                    .foregroundColor(.clear))
+                        }
+                        Button(action: {
+                            showPass.toggle()
+                        }, label: {
+                            Image(systemName: showPass ? "eye.fill" : "eye.slash.fill")
+                        })
+                    }
+                    .padding(.top)
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .padding()
@@ -45,8 +73,7 @@ struct SignInView: View {
                         .overlay(RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color(.systemGray3), lineWidth: 1)
                                     .foregroundColor(.clear))
-                        .padding(.top)
-                    
+                        .padding(.top)   
                 }
                 .padding()
                 
@@ -90,7 +117,10 @@ struct SignInView: View {
             }
             .padding()
         }
-        
+        .onTapGesture {
+            //dismissed keyboard when user taps outside a textfield
+            UIApplication.shared.endEditing()
+        }
     }
 }
 
