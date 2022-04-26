@@ -78,7 +78,7 @@ struct CRNSetupView: View {
                             }
                         },
                         label: {
-                            Text("Update CRNs") // change to "Update CRNs"
+                            Text("Update CRNs").foregroundColor(.blue)
                         })
                     .alert(isPresented: $crnInvalid) {
                         Alert(
@@ -96,8 +96,8 @@ struct CRNSetupView: View {
                             ForEach (self.sections) { section in
                                 VStack(alignment: .leading) {
                                     let course = section.course
-                                    Text(section.crn).font(.subheadline).fontWeight(.light)
-                                    Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).font(.headline)
+                                    Text(section.crn).font(.subheadline).foregroundColor(Color(.systemGray))
+                                    Text(course.id + " " + section.sectionLabel + ": " + course.longTitle).bold()
                                     Text(course.description ?? "")
                                 }.padding()
                             }
@@ -122,11 +122,12 @@ struct CRNSetupView: View {
                  */
                 NavigationLink(destination: ChatsView(sections: $sections, studybuddy2mutualsections: $studybuddy2mutualsections), isActive: $buddiesFound) {
                     Button(action: {
-                        
+                        findingBuddies = true
                         findStudyBuddies(completion: { studybuddy2mutualsections in
                             print("your study buddies are: ")
                             print(studybuddy2mutualsections)
                             self.studybuddy2mutualsections = studybuddy2mutualsections
+                            findingBuddies = false
                             buddiesFound = true
                         })
                         
@@ -274,19 +275,32 @@ struct CRNSetupView: View {
                     let classmates = classrooms[crn]!
                     for uid in classmates {
                         // ignore current user
-                        if uid == session.session!.uid {
-                            // print("skipping current user")
+                        print("printing userinfo")
+                        print(uid)
+                        print(session.session!.uid)
+                        print((uid, session.session!.uid))
+                        if uid == session.session!.uid { // this isn't getting executed
+                            print("skipping current user")
                             continue
                         }
                         // add the user to the map to effectively count the number of occurrences of that user
-                        let classmate = User(uid: uid)
+                        let classmate = User(uid: uid) // if you make it fetch the display name of the user here then everything will work
+                        /*
+                        classmate.fetchInfo(completion: { fetchedUser in
+                            print("successfully fetched user")
+                        })
+                         */
+                        
                         var mutualSections = studybuddy2mutualsections[classmate, default: []]
                         mutualSections.append(courseSection)
                         studybuddy2mutualsections[classmate] = mutualSections
                     }
                 }
                 
-                completion(studybuddy2mutualsections)
+                SessionStore.updateUserInfo(studybuddy2mutualsections, completion: { studybuddy2mutualsections in
+                    completion(studybuddy2mutualsections)
+                    print("successfully fetched all user info")
+                })
             })
         })
         // for each of the current users's courseSections

@@ -47,7 +47,7 @@ struct InformationForm: View {
                         }
                     }.onAppear{pickerAccessed = true}.onDisappear{pickerAccessed=false}
                 }
-                
+
                 Section("Phone number") {
                     TextField("Enter phone number", text: $phoneNumber)
                         .keyboardType(.phonePad)
@@ -93,7 +93,8 @@ struct InformationForm: View {
             }//end v-stack
             
         }//end V-stack
-        
+            }
+        }
         .onAppear{
             print(loaded)
             fetchTerms()

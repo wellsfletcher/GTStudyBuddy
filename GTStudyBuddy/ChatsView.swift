@@ -17,14 +17,21 @@ struct ChatsView: View {
             ForEach (self.chats) { chat in
                 NavigationLink(destination: ChatView(chat: chat), label: {
                     VStack(alignment: .leading) {
-                      Text(chat.user.displayName ?? "Anonymous")
-                        Text(chat.tagline)
+                        Text(chat.user.displayName ?? "No name provided").bold()
+                        Text(chat.tagline).font(.subheadline).foregroundColor(Color(.systemGray))
                     }
                 }).padding()
             }
         }.navigationTitle("Study Buddies")
         .onAppear {
             updateChats()
+            /*
+            SessionStore.updateUserInfo(studybuddy2mutualsections, completion: { studybuddy2mutualsections in
+                // self.studybuddy2mutualsections = studybuddy2mutualsections
+                updateChats()
+                print("successfully fetched all user info")
+            })
+             */
         }
     }
     
@@ -34,5 +41,20 @@ struct ChatsView: View {
             let chat = Chat(user: user, mutualSections: courseSections)
             chats.append(chat)
         }
+        self.chats.sort(by: { (m1, m2) -> Bool in
+            if m1.mutualSections.count == m2.mutualSections.count {
+                if !(m1.user.displayName == nil && m2.user.displayName == nil) {
+                    if (m2.user.displayName == nil) {
+                        return true
+                    } else if (m1.user.displayName == nil) {
+                        return false
+                    } else {
+                        return m1.user.displayName! < m2.user.displayName!
+                    }
+                }
+            }
+            
+            return m1.mutualSections.count > m2.mutualSections.count
+        })
     }
 }

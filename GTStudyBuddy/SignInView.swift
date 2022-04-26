@@ -14,9 +14,9 @@ struct SignInView: View {
     
     @State var showPass: Bool = false
     @State var signUp: Bool = false
-    
-    @State var email = "gwells9@gatech.edu"
-    @State var password = "password"
+   
+    @State var email = ""
+    @State var password = ""
     @State var confirmPassword = ""
     @State var successLogin: Bool = false
     @State var showInformationForm: Bool = false
@@ -57,7 +57,23 @@ struct SignInView: View {
                         })
                     }
                     .padding(.top)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .padding()
+                        .overlay(RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color(.systemGray3), lineWidth: 1)
+                                    .foregroundColor(.clear))
                     
+                    // Use a securefield for sensitive info
+                    // replaces text with dots and other secure features
+                    SecureInputView("Password:", text: self.$password)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .padding()
+                        .overlay(RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color(.systemGray3), lineWidth: 1)
+                                    .foregroundColor(.clear))
+                        .padding(.top)   
                 }
                 .padding()
                 

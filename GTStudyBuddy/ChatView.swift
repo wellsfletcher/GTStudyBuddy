@@ -24,30 +24,40 @@ struct ChatView: View {
     
     var body: some View {
         VStack {
+            
+            
+            List {
+                ForEach(messages.reversed()) { message in
+                    // MessageListView(message: message, isSender: session.session?.uid == sender.uid)
+                    MessageListView(message: message, isSender: sender.uid == message.sender.uid)
+                        .listRowSeparator(.hidden)
+                }
+            }
+            .listStyle(.plain)
+            .padding([.leading, .trailing], 16)
+
             HStack {
-                TextField("Message", text: self.$text)
-                
+                TextField("Start typing...", text: self.$text)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(minHeight: CGFloat(30))
                 Button(action: {
                     self.send()
                 }, label: {
-                    Text("Send")
-                })
+                    // Text("Send")
+                    Image(systemName: "arrowtriangle.right.fill").padding(.leading)
+                }).disabled(self.text.isEmpty)
             }
-            .padding()
-            
-            List {
-                ForEach(messages) { message in
-                    MessageListView(message: message)
-                }
-            }
-        }.navigationTitle(chat.name)
-        .onAppear {
-            fetchMessages()
+            .frame(minHeight: CGFloat(50)).padding()
+                .padding([.leading, .trailing], 16)
         }
         .onTapGesture {
             //dismissed keyboard when user taps outside a textfield
             UIApplication.shared.endEditing()
         }
+        .navigationTitle(chat.name).navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                fetchMessages()
+            }
     }
     
     
